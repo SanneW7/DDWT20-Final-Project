@@ -11,28 +11,28 @@
     <!-- Own CSS -->
     <!--<link rel="stylesheet" href="/DDWT20/week2/css/main.css">-->
 
-    <title><?= 'page_title'//$page_title ?></title>
+    <title><?= $page_title ?></title>
 </head>
 <body>
 <!-- Menu -->
-<?= 'navigation'//$navigation ?>
+<?= $navigation ?>
 
 <!-- Content -->
 <div class="container">
     <!-- Breadcrumbs -->
     <div class="pd-15">&nbsp</div>
-    <?= 'breadcrumbs'//$breadcrumbs ?>
+    <?= $breadcrumbs ?>
 
     <div class="row">
 
         <!-- Left column -->
         <div class="col-md-8">
             <!-- Error message -->
-            <?php //if (isset($error_msg)){echo $error_msg;} ?>
+            <?php if (isset($error_msg)){echo $error_msg;} ?>
 
-            <h1><?= 'page_title'//$page_title ?></h1>
-            <h5><?= 'page_subtitle'//$page_subtitle ?></h5>
-            <p><?= 'page_content'//$page_content ?></p>
+            <h1><?= $page_title ?></h1>
+            <h5><?= $page_subtitle ?></h5>
+            <p><?= $page_content ?></p>
             <?php //if ($display_buttons) { if your the owner ?>
                 <div class="row">
                     <div class="col-sm-2">

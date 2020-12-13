@@ -28,15 +28,6 @@ echo sprintf("Failed to connect. %s",$e->getMessage());
 return $pdo;
 }
 
-/**
- * Pretty Print Array
- * @param $input
- */
-function p_print($input){
-    echo '<pre>';
-    print_r($input);
-    echo '</pre>';
-}
 
 /**
  * This function checks if the called route exists
@@ -51,11 +42,34 @@ function new_route($route_uri, $request_type){
     if ($route_uri_expl == $current_path_expl && $_SERVER['REQUEST_METHOD'] == strtoupper($request_type)) {
         return True;
     }
+    else
+        return false;
+}
+/**
+ * @param string $url containing path of a breadcrumb
+ * @param bool $active tell if the path is active
+ * @return array containing the navigation items
+ */
+
+function na($url, $active){
+    return [$url, $active];
 }
 
 /**
+ * Connect the right template from the view to the controller
+ * @param string $template name of the right view
+ * @return string the path the right template
+ */
+
+function use_template($template){
+    $template_doc = sprintf("views/%s.php", $template);
+    return $template_doc;
+}
+
+
+/**
  * Creates breadcrumbs showing the current path
- * @param array $breadcrumbs containing breadrcumbs of the current path
+ * @param array $breadcrumbs containing breadcrumbs of the current path
  * @return string html code containing breadcrumbs
  */
 
@@ -110,22 +124,15 @@ function get_navigation($template, $active_id){
 }
 
 /**
- * @param string $url containing path of a breadcrumb
- * @param bool $active tell if the path is active
- * @return array containing the navigation items
+ * Pretty Print Array
+ * @param $input
  */
-
-function na($url, $active){
-    return [$url, $active];
+function p_print($input){
+    echo '<pre>';
+    print_r($input);
+    echo '</pre>';
 }
 
-/**
- * Connect the right template from the view to the controller
- * @param string $template name of the right view
- * @return string the path the right template
- */
 
-function use_template($template){
-    $template_doc = sprintf("views/%s.php", $template);
-    return $template_doc;
-}
+
+

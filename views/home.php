@@ -22,18 +22,17 @@
         <!-- Breadcrumbs -->
         <div class="pd-15">&nbsp</div>
         <?= $breadcrumbs ?>
-
         <div class="row">
 
             <!-- Left column -->
             <div class="col-md-8">
                 <!-- Error message -->
-                <?php /* if (isset($error_msg)){echo $error_msg;} */?>
+                <?php  if (isset($error_msg)){echo $error_msg;} ?>
 
                 <h1><?= $page_title?></h1>
                 <h5><?= $page_subtitle?></h5>
                 <p><?=  $page_content?></p>
-                <?php /* if(isset($left_content)){echo $left_content;} */?>
+                <?php  if(isset($left_content)){echo $left_content;} ?>
             </div>
 
             <!-- Right column -->

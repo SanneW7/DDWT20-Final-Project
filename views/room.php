@@ -53,31 +53,31 @@
                 <tbody>
                 <tr>
                     <th scope="row">Price</th>
-                    <td><?= 'price'//$creators ?></td>
+                    <td><?= 'price' ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Type</th>
-                    <td><?= 'type'//$nbr_seasons ?></td>
+                    <td><?= 'type' ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Size</th>
-                    <td><?= 'size'//$added_by ?></td>
+                    <td><?= 'size' ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Owner</th>
-                    <td><?= 'owner'//$added_by ?></td>
+                    <td><?= 'owner' ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Address</th>
-                    <td><?= 'Street housenumber'//$added_by ?></td>
+                    <td><?= 'Street housenumber' ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Zipcode</th>
-                    <td><?= 'zipcode'//$added_by ?></td>
+                    <td><?= 'zipcode' ?></td>
                 </tr>
                 <tr>
                     <th scope="row">City</th>
-                    <td><?= 'city'//$added_by ?></td>
+                    <td><?= 'city' ?></td>
                 </tr>
 
                 </tbody>

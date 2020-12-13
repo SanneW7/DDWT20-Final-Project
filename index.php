@@ -237,11 +237,5 @@ elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
     include use_template('message');
 }
 
-/* Message POST */
-elseif (new_route('/DDWT20-Final-Project/message/', 'post')) {
-    /* General page information */
-
-    /* Specific page information */
-
-    /* Used template */
-}
+else
+    p_print('error');

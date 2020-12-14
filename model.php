@@ -229,3 +229,133 @@ function get_error($feedback){
         </div>';
     return $error_exp;
 }
+
+function get_room_table($pdo, $rooms){
+    $table_exp = '
+    <table class="table table-hover">
+    <thead
+    <th>
+        <th scop="col">City</th>
+        <th scope="col">Street name</th>
+        <th scope="col">Price</th>
+        <th scop="col">Size</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>';
+    foreach($rooms as $key => $value){
+        $table_exp .= '
+        <tr>
+            <th scope="row">'.$value['city'].'</th>
+            <th scope="row">'.$value['streetname'].'</th>
+            <th scope="row">'.$value['price'].'</th>
+            <th scope="row">'.$value['size'].'</th>
+            <td><a href="/DDWT20-Final-Project/room/?id='.$value['id'].'" role="button" class="btn btn-primary">More info</a></td>
+        </tr>
+        ';
+    }
+    $table_exp .= '
+    </tbody>
+    </table>
+    ';
+    return $table_exp;
+}
+
+function get_rooms($pdo){
+    $stmt = $pdo->prepare('SELECT * FROM rooms');
+    $stmt->execute();
+    $rooms = $stmt->fetchAll();
+    $rooms_exp = Array();
+
+    /* Create array with htmlspecialchars */
+    foreach ($rooms as $key => $value){
+        foreach ($value as $user_key => $user_input) {
+            $rooms_exp[$key][$user_key] = htmlspecialchars($user_input);
+        }
+    }
+    return $rooms_exp;
+}
+
+function get_room_info($pdo, $room_id){
+    $stmt = $pdo->prepare('SELECT * FROM rooms WHERE id = ?');
+    $stmt->execute([$room_id]);
+    $room_info = $stmt->fetch();
+    $room_info_exp = Array();
+
+    /* Create array with htmlspecialchars */
+    foreach ($room_info as $key => $value){
+        $room_info_exp[$key] = htmlspecialchars($value);
+    }
+    return $room_info_exp;
+}
+
+function update_room($pdo, $room_info){
+    /* Empty check */
+    if (
+        empty($room_info['price']) or
+        empty($room_info['type']) or
+        empty($room_info['size']) or
+        empty($room_info['street']) or
+        empty($room_info['housenumber']) or
+        empty($room_info['zipcode']) or
+        empty($room_info['city'])
+    ) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul alle velden in om door te gaan.'
+        ];
+    }
+
+    /* Numeric check */
+    if (!is_numeric($room_info['price'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Prijs.'
+        ];
+    } elseif (!is_numeric($room_info['size'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Oppervlakte.'
+        ];
+    } elseif (!is_numeric($room_info['housenumber'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Huisnummer.'
+        ];
+    }
+
+    /* Get current room name */
+    $stmt = $pdo->prepare('SELECT * FROM rooms WHERE id = ?');
+    $stmt->execute([$room_info['id']]);
+    $room = $stmt->fetch();
+
+    /*$display_buttons = $serie_info['user'] == $_SESSION['user_id'];
+    if ($display_buttons) {
+        /* Update Serie
+        $user_id = $_SESSION['user_id']; */
+        $stmt = $pdo->prepare("UPDATE rooms SET price = ?, type = ?, size = ?, streetname = ?, city = ?, zip_code = ?, house_number = ? WHERE id = ?");
+        $stmt->execute([
+            $room_info['price'],
+            $room_info['type'],
+            $room_info['size'],
+            $room_info['street'],
+            $room_info['city'],
+            $room_info['zipcode'],
+            $room_info['housenumber'],
+            $room_info['id']
+        ]);
+        $updated = $stmt->rowCount();
+    /*}*/
+    if ($updated ==  1) {
+        return [
+            'type' => 'success',
+            'message' => sprintf("Kamer informatie is gewijzigd!")
+        ];
+    }
+    else {
+        return [
+            'type' => 'warning',
+            'message' => 'Er is iets fout gegaan. Probeer het opnieuw!'
+        ];
+    }
+}

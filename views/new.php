@@ -55,25 +55,25 @@
                 <div class="form-group row">
                     <label for="inputStreet" class="col-sm-2 col-form-label">Street</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputStreet" name="street"><?php if (isset($room_info)){echo $room_info['street'];} ?></input>
+                        <input type="text" class="form-control" id="inputStreet" name="street" value="<?php if (isset($room_info)){echo $room_info['streetname'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputHouseNumber" class="col-sm-2 col-form-label">House Number</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputHouseNumber" name="housenumber"><?php if (isset($room_info)){echo $room_info['housenumber'];} ?></input>
+                        <input type="text" class="form-control" id="inputHouseNumber" name="housenumber" value="<?php if (isset($room_info)){echo $room_info['house_number'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputZipcode" class="col-sm-2 col-form-label">Zipcode</label>
                     <div class="col-sm-10">
-                        <input type="text" maxlength="6" class="form-control" id="inputZipcode" name="zipcode"><?php if (isset($room_info)){echo $room_info['zipcode'];} ?></textarea>
+                        <input type="text" maxlength="6" class="form-control" id="inputZipcode" name="zipcode" value="<?php if (isset($room_info)){echo $room_info['zip_code'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputCity" class="col-sm-2 col-form-label">City</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCity" name="city"><?php if (isset($room_info)){echo $room_info['city'];} ?></input>
+                        <input type="text" class="form-control" id="inputCity" name="city" value="<?php if (isset($room_info)){echo $room_info['city'];} ?>">
                     </div>
                 </div>
                 <?php if(isset($room_id)){ ?><input type="hidden" name="room_id" value="<?php echo $room_id ?>"><?php } ?>
@@ -81,14 +81,6 @@
                 </div>
             </form>
         </div>
-
-        <!-- Right column -->
-        <div class="col-md-4">
-
-            <?php include $right_column ?>
-
-        </div>
-
     </div>
 </div>
 

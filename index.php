@@ -59,6 +59,11 @@ elseif (new_route('/DDWT20-Final-Project/rooms/', 'get')) {
     /* Specific page information */
     $page_subtitle = 'Beschikbare kamers';
     $page_content = 'Hier zie je een overzicht van alle kamers';
+    $left_content = get_room_table($db, get_rooms($db));
+
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
 
     /* Used template */
     include use_template('room_overview');
@@ -66,13 +71,16 @@ elseif (new_route('/DDWT20-Final-Project/rooms/', 'get')) {
 
 /* Page single room info */
 elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
+    /* Get room information */
+    $room_id = $_GET['id'];
+    $room_info = get_room_info($db, $room_id);
+
     /* General page information */
-    /* $naam = Functie haalt straatnaam + nr op */
-    $page_title = 'NAAM KAMER'; /* $naam */
+    $page_title = $room_info['streetname']. ' ' .$room_info['house_number']; /* $naam */
     $breadcrumbs = get_breadcrumbs([
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Kamers' => na('/DDWT20-Final-Project/rooms/', False),
-        'KAMER NAAM' => na('/DDWT20-Final-Project/room/', True) /* $naam */
+        $page_title => na('/DDWT20-Final-Project/room/', True) /* $naam */
     ]);
     $navigation = get_navigation($template, 2);
 
@@ -111,12 +119,22 @@ elseif (new_route('/DDWT20-Final-Project/add_room/', 'get')) {
 /* ADD room POST */
 elseif (new_route('/DDWT20-Final-Project/add_room/', 'post')) {
     $feedback = add_room($db, $_POST);
-    redirect(sprintf('/DDWT20-Final-Project/add_room/?error_msg=%s',
-        json_encode($feedback)));
+
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/add_room/?error_msg=%s',
+            json_encode($feedback)));
+    } else {
+        redirect(sprintf('/DDWT20-Final-Project/rooms/?error_msg=%s',
+            json_encode($feedback)));
+    }
 }
 
 /* EDIT room GET */
 elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
+    /* Get room information */
+    $room_id = $_GET['id'];
+    $room_info = get_room_info($db, $room_id);
+
     /* General page information */
     $page_title = 'Kamer informatie aanpassen';
     $breadcrumbs = get_breadcrumbs([
@@ -128,6 +146,12 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
     /* Specific page information */
     $page_subtitle = sprintf('% aanpassen', 'KAMER');
     $page_content = 'Pas de velden aan';
+    $form_action = '/DDWT20-Final-Project/edit/';
+    $submit_btn = "Kamer aanpassen";
+
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
 
     /* Used template */
     include use_template('new');
@@ -135,11 +159,16 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
 
 /* EDIT room POST */
 elseif (new_route('/DDWT20-Final-Project/edit/', 'post')) {
-    /* General page information */
+    $feedback = update_room($db, $_POST);
+    $room_id = $_POST['id'];
 
-    /* Specific page information */
-
-    /* Used template */
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/edit/?error_msg=%s',
+            json_encode($feedback)));
+    } else {
+        redirect(sprintf('/DDWT20-Final-Project/room/?id=%s&error_msg=%s',
+            json_encode(intval($room_id)), json_encode($feedback)));
+    }
 }
 
 /* DELETE room */
@@ -165,6 +194,10 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
     $page_subtitle = 'Welkom';
     $page_content = 'Hier zie je een overzicht van je kamers';
 
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
     /* Used template */
     include use_template('account');
 }
@@ -182,6 +215,10 @@ elseif (new_route('/DDWT20-Final-Project/register/', 'get')) {
     /* Specific page information */
     $page_subtitle = 'Registreer je account';
     $page_content = 'Vul alle velden in om te registreren';
+
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
 
     /* Used template */
     include use_template('register');
@@ -210,6 +247,10 @@ elseif (new_route('/DDWT20-Final-Project/login/', 'get')) {
     $page_subtitle = 'Hier kun je inloggen';
     $page_content = 'Vul je gegevens in om in te loggen';
 
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
     /* Used template */
     include use_template('login');
 }
@@ -236,6 +277,10 @@ elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
     /* Specific page information */
     $page_subtitle = '';
     $page_content = '';
+
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
 
     /* Used template */
     include use_template('message');

@@ -34,66 +34,52 @@
             <h5><?= $page_subtitle ?></h5>
             <p><?= $page_content ?></p>
             <?php //if ($display_buttons) { if your the owner ?>
-                <div class="row">
-                    <div class="col-sm-2">
-                        <a href="/DDWT20_finalproject/edit/?serie_id=<?=
-                        'room_id'//$serie_id ?>" role="button" class="btn btn-warning">Edit</a>
-                    </div>
-                    <div class="col-sm-2">
-                        <form action="/DDWT20_finalproject/remove/"
-                              method="POST">
-                            <input type="hidden" value="<?= 'room_id'//$serie_id
-                            ?>" name="serie_id">
-                            <button type="submit" class="btn btndanger">Remove</button>
-                        </form>
-                    </div>
-                </div>
             <?php //} ?>
             <table class="table">
                 <tbody>
                 <tr>
                     <th scope="row">Price</th>
-                    <td><?= 'price' ?></td>
+                    <td><?= $room_info['price'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Type</th>
-                    <td><?= 'type' ?></td>
+                    <td><?= $room_info['type'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Size</th>
-                    <td><?= 'size' ?></td>
+                    <td><?= $room_info['size'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Owner</th>
-                    <td><?= 'owner' ?></td>
+                    <td><?= $room_info['owner'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Address</th>
-                    <td><?= 'Street housenumber' ?></td>
+                    <td><?= $room_info['streetname']. ' ' .$room_info['house_number'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Zipcode</th>
-                    <td><?= 'zipcode' ?></td>
+                    <td><?= $room_info['zip_code'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">City</th>
-                    <td><?= 'city' ?></td>
+                    <td><?= $room_info['city'] ?></td>
                 </tr>
 
                 </tbody>
             </table>
-            <!--<div class="row">
+            <div class="row">
                 <div class="col-sm-2">
-                    <a href="/DDWT20_finalproject/edit/?serie_id=<?= 'room_id'//$serie_id ?>" role="button" class="btn btn-warning">Edit</a>
+                    <a href="/DDWT20-Final-Project/edit/?id=<?= $room_info['id'] ?>" role="button" class="btn btn-warning">Edit</a>
                 </div>
                 <div class="col-sm-2">
-                    <form action="/DDWT20_finalproject/remove/" method="POST">
-                        <input type="hidden" value="<?= 'room_id'//$serie_id ?>" name="serie_id">
+                    <form action="/DDWT20-Final-Project/remove/"
+                          method="POST">
+                        <input type="hidden" value="<?= $room_info['id'] ?>" name="room_id">
                         <button type="submit" class="btn btn-danger">Remove</button>
                     </form>
                 </div>
-            </div>-->
-
+            </div>
         </div>
 
         <!-- Right column -->

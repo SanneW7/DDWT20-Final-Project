@@ -97,18 +97,22 @@ elseif (new_route('/DDWT20-Final-Project/add_room/', 'get')) {
     /* Specific page information */
     $page_subtitle = 'Kamer toevoegen';
     $page_content = 'Vul alle velden in om een kamer toe te voegen';
+    $submit_btn = "Voeg kamer toe";
+    $form_action = '/DDWT20-Final-Project/add_room/';
+
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
 
     /* Used template */
     include use_template('new');
 }
 
 /* ADD room POST */
-elseif (new_route('/DDWT20-Final-Project/add/', 'post')) {
-    /* General page information */
-
-    /* Specific page information */
-
-    /* Used template */
+elseif (new_route('/DDWT20-Final-Project/add_room/', 'post')) {
+    $feedback = add_room($db, $_POST);
+    redirect(sprintf('/DDWT20-Final-Project/add_room/?error_msg=%s',
+        json_encode($feedback)));
 }
 
 /* EDIT room GET */
@@ -238,4 +242,4 @@ elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
 }
 
 else
-    p_print('error');
+    p_print('De pagina kan niet gevonden worden');

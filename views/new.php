@@ -37,43 +37,43 @@
                 <div class="form-group row">
                     <label for="inputPrice" class="col-sm-2 col-form-label">Price</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputPrice" name="price" value="<?php if (isset($room_info)){echo $room_info['price'];} ?>" required>
+                        <input type="text" class="form-control" id="inputPrice" name="price" value="<?php if (isset($room_info)){echo $room_info['price'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputType" class="col-sm-2 col-form-label">Type</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputType" name="type" value="<?php if (isset($room_info)){echo $room_info['type'];} ?>" required>
+                        <input type="text" class="form-control" id="inputType" name="type" value="<?php if (isset($room_info)){echo $room_info['type'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputSize" class="col-sm-2 col-form-label">Size</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputSize" name="size" value="<?php if (isset($room_info)){echo $room_info['size'];} ?>" required>
+                        <input type="number" class="form-control" id="inputSize" name="size" value="<?php if (isset($room_info)){echo $room_info['size'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputStreet" class="col-sm-2 col-form-label">Street</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="inputStreet" rows="3" name="street" required><?php if (isset($room_info)){echo $room_info['street'];} ?></textarea>
+                        <textarea class="form-control" id="inputStreet" rows="3" name="street"><?php if (isset($room_info)){echo $room_info['street'];} ?></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputHouseNumber" class="col-sm-2 col-form-label">House Number</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="inputHouseNumber" rows="3" name="housenumber" required><?php if (isset($room_info)){echo $room_info['housenumber'];} ?></textarea>
+                        <textarea class="form-control" id="inputHouseNumber" rows="3" name="housenumber"><?php if (isset($room_info)){echo $room_info['housenumber'];} ?></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputZipcode" class="col-sm-2 col-form-label">Zipcode</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="inputZipcode" rows="3" name="zipcode" required><?php if (isset($room_info)){echo $room_info['zipcode'];} ?></textarea>
+                        <textarea class="form-control" id="inputZipcode" rows="3" name="zipcode"><?php if (isset($room_info)){echo $room_info['zipcode'];} ?></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputCity" class="col-sm-2 col-form-label">City</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="inputCity" rows="3" name="city" required><?php if (isset($room_info)){echo $room_info['city'];} ?></textarea>
+                        <textarea class="form-control" id="inputCity" rows="3" name="city"><?php if (isset($room_info)){echo $room_info['city'];} ?></textarea>
                     </div>
                 </div>
                 <?php if(isset($room_id)){ ?><input type="hidden" name="room_id" value="<?php echo $room_id ?>"><?php } ?>

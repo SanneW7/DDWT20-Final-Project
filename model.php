@@ -133,6 +133,99 @@ function p_print($input){
     echo '</pre>';
 }
 
+function add_room($pdo, $room_info){
+    /* Empty check */
+    if (
+        empty($room_info['price']) or
+        empty($room_info['type']) or
+        empty($room_info['size']) or
+        empty($room_info['street']) or
+        empty($room_info['housenumber']) or
+        empty($room_info['zipcode']) or
+        empty($room_info['city'])
+    ) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul alle velden in om door te gaan.'
+        ];
+    }
 
+    /* Numeric check */
+    if (!is_numeric($room_info['price'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Prijs.'
+        ];
+    } elseif (!is_numeric($room_info['size'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Oppervlakte.'
+        ];
+    } elseif (!is_numeric($room_info['housenumber'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Huisnummer.'
+        ];
+    }
 
+    /* Zip code check */
+    /*if (!zipcode_check($room_info['zipcode'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een geldige postcode in.'
+        ];
+    }
 
+    /* Add room to database */
+    $stmt = $pdo->prepare("INSERT INTO rooms (price, owner, type, size, streetname, city, zip_code, house_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([
+        $room_info['price'],
+        1,
+        $room_info['type'],
+        $room_info['size'],
+        $room_info['street'],
+        $room_info['city'],
+        $room_info['zipcode'],
+        $room_info['housenumber']
+    ]);
+    $pdo->lastInsertId();
+    $inserted = $stmt->rowCount();
+    if ($inserted ==  1) {
+        return [
+            'type' => 'success',
+            'message' => sprintf("Kamer '%s %s' is toegevoegd aan Kamernet2!", $room_info['street'], $room_info['housenumber'])
+        ];
+    }
+    else {
+        return [
+            'type' => 'danger',
+            'message' => 'Er is iets fout gegaan. Probeer het opnieuw!'
+        ];
+    }
+}
+
+function zipcode_check($postcode)
+{
+    $remove = str_replace(" ","", $postcode);
+    $upper = strtoupper($remove);
+
+    if( preg_match("/^\W[1-9]{1}[0-9]{3}\W[a-zA-Z]{2}\W*$/",  $upper)) {
+        return $upper;
+    } else {
+        return false;
+    }
+}
+
+function redirect($location){
+    header(sprintf('Location: %s', $location));
+    die();
+}
+
+function get_error($feedback){
+    $feedback = json_decode($feedback, True);
+    $error_exp = '
+        <div class="alert alert-'.$feedback['type'].'" role="alert">
+            '.$feedback['message'].'
+        </div>';
+    return $error_exp;
+}

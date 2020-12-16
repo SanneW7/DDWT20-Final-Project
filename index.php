@@ -4,22 +4,10 @@ include 'model.php';
 
 /* Connect to DB */
 $db = connect_db('localhost', 'final_project', 'ddwt20','ddwt20');
-$template = Array(
+$template_login = Array(
     1 => Array(
         'name' => 'Home',
         'url' => '/DDWT20-Final-Project/'
-    ),
-    2 => Array(
-        'name' => 'Kamers',
-        'url' => '/DDWT20-Final-Project/rooms/'
-    ),
-    3 => Array(
-        'name' => 'Kamer plaatsen',
-        'url' => '/DDWT20-Final-Project/add_room/'
-    ),
-    4 => Array(
-        'name' => 'Mijn account',
-        'url' => '/DDWT20-Final-Project/myaccount/'
     ),
     5 => Array(
         'name' => 'Login',
@@ -30,11 +18,18 @@ $template = Array(
 /* Home page */
 if (new_route('/DDWT20-Final-Project/', 'get')) {
     /* General page information */
+    session_start();
     $page_title = 'Home pagina';
     $breadcrumbs = get_breadcrumbs([
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Home' => na('/DDWT20-Final-Project/', True)
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
+
     $navigation = get_navigation($template, 1);
 
     /* Specific page information */
@@ -60,6 +55,11 @@ elseif (new_route('/DDWT20-Final-Project/rooms/', 'get')) {
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Kamers' => na('/DDWT20-Final-Project/rooms/', True)
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
     $navigation = get_navigation($template, 2);
 
     /* Specific page information */
@@ -91,6 +91,11 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
         'Kamers' => na('/DDWT20-Final-Project/rooms/', False),
         $page_title => na('/DDWT20-Final-Project/room/', True) /* $naam */
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
     $navigation = get_navigation($template, 2);
 
     /* Specific page information */
@@ -116,6 +121,11 @@ elseif (new_route('/DDWT20-Final-Project/add_room/', 'get')) {
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Kamer toevoegen' => na('/DDWT20-Final-Project/add_room/', True)
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
     $navigation = get_navigation($template, 3);
 
     /* Specific page information */
@@ -160,6 +170,11 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         sprintf('% aanpassen', 'KAMER') => na('/DDWT20-Final-Project/edit/', True)
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
     $navigation = get_navigation($template, 0);
 
     /* Specific page information */
@@ -216,6 +231,11 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Mijn account' => na('/DDWT20-Final-Project/myaccount/', True)
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
     $navigation = get_navigation($template, 4);
 
     /* Specific page information */
@@ -239,6 +259,11 @@ elseif (new_route('/DDWT20-Final-Project/register/', 'get')) {
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Registreren' => na('/DDWT20-Final-Project/register/', True)
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
     $navigation = get_navigation($template, 5);
 
     /* Specific page information */
@@ -279,6 +304,11 @@ elseif (new_route('/DDWT20-Final-Project/login/', 'get')) {
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Login' => na('/DDWT20-Final-Project/', True)
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
     $navigation = get_navigation($template, 5);
 
     /* Specific page information */
@@ -317,6 +347,11 @@ elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Berichten' => na('/DDWT20-Final-Project/', True)
     ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
     $navigation = get_navigation($template, 0);
 
     /* Specific page information */

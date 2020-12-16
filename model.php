@@ -551,3 +551,51 @@ function logout_user(){
         'message' => 'Je bent uitgelogd!'
     ];
 }
+function template_check($pdo, $user_id){
+    $template_tenant = Array(
+        1 => Array(
+            'name' => 'Home',
+            'url' => '/DDWT20-Final-Project/'
+        ),
+        2 => Array(
+            'name' => 'Kamers',
+            'url' => '/DDWT20-Final-Project/rooms/'
+        ),
+        4 => Array(
+            'name' => 'Mijn account',
+            'url' => '/DDWT20-Final-Project/myaccount/'
+        )
+    );
+    $template_owner = Array(
+        1 => Array(
+            'name' => 'Home',
+            'url' => '/DDWT20-Final-Project/'
+        ),
+        2 => Array(
+            'name' => 'Kamers',
+            'url' => '/DDWT20-Final-Project/rooms/'
+        ),
+        3 => Array(
+            'name' => 'Kamer plaatsen',
+            'url' => '/DDWT20-Final-Project/add_room/'
+        ),
+        4 => Array(
+            'name' => 'Mijn account',
+            'url' => '/DDWT20-Final-Project/myaccount/'
+        )
+    );
+
+    $role = get_role($pdo, $user_id);
+    if ($role == 1){
+        return $template_owner;
+    }
+    else{
+        return $template_tenant;
+    }
+}
+function get_role($pdo, $id){
+    $stmt = $pdo->prepare("SELECT role  FROM users WHERE id = ?");
+    $stmt->execute([$id]);
+    $role = $stmt->fetch();
+    return htmlspecialchars($role['role']);
+}

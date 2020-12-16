@@ -359,3 +359,26 @@ function update_room($pdo, $room_info){
         ];
     }
 }
+
+function remove_room($pdo, $room_id){
+    /* Get room info
+    $room_info = get_serieinfo($pdo, $room_id);
+    /*$display_buttons = $serie_info['user'] == $_SESSION['user_id'];*/
+
+    /* Delete room */
+    $stmt = $pdo->prepare("DELETE FROM rooms WHERE id = ?");
+    $stmt->execute([$room_id]);
+    $deleted = $stmt->rowCount();
+    if ($deleted ==  1) {
+        return [
+            'type' => 'success',
+            'message' => 'De kamer is verwijderd!'
+        ];
+    }
+    else {
+        return [
+            'type' => 'warning',
+            'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'
+        ];
+    }
+}

@@ -76,7 +76,7 @@
                         <input type="text" class="form-control" id="inputCity" name="city" value="<?php if (isset($room_info)){echo $room_info['city'];} ?>">
                     </div>
                 </div>
-                <?php if(isset($room_id)){ ?><input type="hidden" name="room_id" value="<?php echo $room_id ?>"><?php } ?>
+                <?php if(isset($room_id)){ ?><input type="hidden" name="id" value="<?php echo $room_id ?>"><?php } ?>
                 <button type="submit" class="btn btn-primary"><?= $submit_btn ?></button>
                 </div>
             </form>

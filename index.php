@@ -88,6 +88,10 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
     $page_subtitle = 'Kamer info';
     $page_content = 'Hier vind je de specifieke informatie over deze kamer';
 
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
     /* Used template */
     include use_template('room');
 }
@@ -149,7 +153,7 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
     $form_action = '/DDWT20-Final-Project/edit/';
     $submit_btn = "Kamer aanpassen";
 
-    if ( isset($_GET['error_msg']) ) {
+    if (isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);
     }
 
@@ -173,11 +177,17 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'post')) {
 
 /* DELETE room */
 elseif (new_route('/DDWT20-Final-Project/delete/', 'post')) {
-    /* General page information */
+    $room_id = $_POST['id'];
+    $feedback = remove_room($db, $room_id);
 
-    /* Specific page information */
-
-    /* Used template */
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/room/?id=%s&error_msg=%s',
+            json_encode(intval($room_id)), json_encode($feedback)));
+    } else {
+        /* Redirect to room overview */
+        redirect(sprintf('/DDWT20-Final-Project/rooms/?error_msg=%s',
+            json_encode($feedback)));
+    }
 }
 
 /* Account GET */

@@ -25,7 +25,6 @@ $template = Array(
         'name' => 'Login',
         'url' => '/DDWT20-Final-Project/login/'
     )
-
 );
 
 /* Home page */
@@ -42,12 +41,19 @@ if (new_route('/DDWT20-Final-Project/', 'get')) {
     $page_subtitle = 'Welkom op Kamernet2';
     $page_content = 'Vind hier je nieuwe kamer of nieuwe huisgenoot!';
 
+    if ( isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
     /* Used template */
     include use_template('home');
 }
 
 /* Page containing all rooms */
 elseif (new_route('/DDWT20-Final-Project/rooms/', 'get')) {
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');
+    }
     /* General page information */
     $page_title = 'Kamers';
     $breadcrumbs = get_breadcrumbs([
@@ -71,6 +77,9 @@ elseif (new_route('/DDWT20-Final-Project/rooms/', 'get')) {
 
 /* Page single room info */
 elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');
+    }
     /* Get room information */
     $room_id = $_GET['id'];
     $room_info = get_room_info($db, $room_id);
@@ -98,6 +107,9 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
 
 /* ADD room GET */
 elseif (new_route('/DDWT20-Final-Project/add_room/', 'get')) {
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');
+    }
     /* General page information */
     $page_title = 'Kamer toevoegen';
     $breadcrumbs = get_breadcrumbs([
@@ -135,6 +147,9 @@ elseif (new_route('/DDWT20-Final-Project/add_room/', 'post')) {
 
 /* EDIT room GET */
 elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');
+    }
     /* Get room information */
     $room_id = $_GET['id'];
     $room_info = get_room_info($db, $room_id);
@@ -192,6 +207,9 @@ elseif (new_route('/DDWT20-Final-Project/delete/', 'post')) {
 
 /* Account GET */
 elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');
+    }
     /* General page information */
     $page_title = sprintf('Account van %', 'NAAM');
     $breadcrumbs = get_breadcrumbs([
@@ -203,6 +221,7 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
     /* Specific page information */
     $page_subtitle = 'Welkom';
     $page_content = 'Hier zie je een overzicht van je kamers';
+    $user = get_username($db, $_SESSION['user_id']);
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);
@@ -251,6 +270,9 @@ elseif (new_route('/DDWT20-Final-Project/register/', 'POST')) {
 
 /* Login GET */
 elseif (new_route('/DDWT20-Final-Project/login/', 'get')) {
+    if (check_login()){
+        redirect('/DDWT20-Final-Project/myaccount/');
+    }
     /* General page information */
     $page_title = 'Login';
     $breadcrumbs = get_breadcrumbs([
@@ -273,15 +295,22 @@ elseif (new_route('/DDWT20-Final-Project/login/', 'get')) {
 
 /* Login POST */
 elseif (new_route('/DDWT20-Final-Project/login/', 'post')) {
-    /* General page information */
-
-    /* Specific page information */
-
-    /* Used template */
+    $feedback = login_user($db, $_POST);
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/login/?error_msg=%s',
+            json_encode($feedback)));
+    } else {
+        /* Redirect to room overview */
+        redirect(sprintf('/DDWT20-Final-Project/myaccount/?error_msg=%s',
+            json_encode($feedback)));
+    }
 }
 
 /* Message GET */
 elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');
+    }
     /* General page information */
     $page_title = 'Berichten';
     $breadcrumbs = get_breadcrumbs([
@@ -300,6 +329,14 @@ elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
 
     /* Used template */
     include use_template('message');
+}
+
+/* Logout POST */
+elseif (new_route('/DDWT20-Final-Project/logout/', 'get')) {
+    session_destroy();
+    $feedback = logout_user();
+    redirect(sprintf('/DDWT20-Final-Project/?error_msg=%s',
+        json_encode($feedback)));
 }
 
 else

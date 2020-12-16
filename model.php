@@ -97,7 +97,7 @@ function get_breadcrumbs($breadcrumbs) {
  */
 
 function get_navigation($template, $active_id){
-    $navigation_exp = '
+    $navigation_exp = session_status().'
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand">Kamernet2</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -458,4 +458,96 @@ function register_user($pdo, $form_data){
     ];
     redirect(sprintf('/DDWT20-Final-Project/myaccount/?error_msg=%s',
         json_encode($feedback)));
+}
+
+function get_username($pdo, $user_id){
+    $stmt = $pdo->prepare("SELECT username FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $username_array = $stmt -> fetch();
+    $username = '';
+    foreach ($username_array as $key => $value){
+        $username = $value;
+    }
+    return htmlspecialchars($username);
+}
+
+function login_user($pdo, $form_data){
+    /* Check if all fields are set */
+    if (
+        empty($form_data['username']) or
+        empty($form_data['password'])
+    ) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een gebruiksnaam en wachtwoord in.'
+        ];
+    }
+
+    /* Check if user exists */
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
+        $stmt->execute([$form_data['username']]);
+        $user_info = $stmt->fetch();
+    } catch (\PDOException $e) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
+        ];
+    }
+    /* Return error message for wrong username */
+    if (empty($user_info) ) {
+        return [
+            'type' => 'danger',
+            'message' => 'De gebruikersnaam die je hebt ingevuld bestaat niet!'
+        ];
+    }
+
+    /* Check password */
+    if (!password_verify($form_data['password'], $user_info['password']) ){
+        return [
+            'type' => 'danger',
+            'message' => 'Het wachtwoord dat je hebt ingevuld klopt niet!'
+        ];
+    } else {
+        session_start();
+        $_SESSION['user_id'] = $user_info['id'];
+        $feedback = [
+            'type' => 'success',
+            'message' => sprintf('%s, je bent ingelogd!',
+                get_username($pdo, $_SESSION['user_id']))
+        ];
+        redirect(sprintf('/DDWT20-Final-Project/myaccount/?error_msg=%s',
+            json_encode($feedback)));
+    }
+}
+
+function check_login(){
+    session_start();
+    if (isset($_SESSION['user_id'])){
+        return True;
+    } else {
+        return False;
+    }
+}
+
+function logout_user(){
+    session_destroy();
+    session_unset();
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    if (isset($_SESSION['user_id'])){
+        return [
+            'type' => 'danger',
+            'message' => 'Je bent niet uitgelogd.'
+        ];
+    }
+    return [
+        'type' => 'success',
+        'message' => 'Je bent uitgelogd!'
+    ];
 }

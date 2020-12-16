@@ -47,7 +47,7 @@
                 </div>
                 <div class="card-body">
                     <p>You're logged in to Profiel Overview.</p>
-                    <a href="/DDWT20_finalproject/logout/" class="btn btn-primary">Logout</a>
+                    <a href="/DDWT20-Final-Project/logout/" class="btn btn-primary">Logout</a>
                 </div>
             </div>
         </div>

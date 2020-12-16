@@ -35,7 +35,7 @@
 
             <div class="pd-15">&nbsp;</div>
 
-            <form action="/DDWT20_finalproject/login/" method="POST">
+            <form action="/DDWT20-Final-Project/login/" method="POST">
                 <div class="form-group">
                     <label for="inputUsername">Username</label>
                     <input type="text" class="form-control" id="inputUsername" placeholder="Enter username" name="username" required>
@@ -45,6 +45,12 @@
                     <input type="password" class="form-control" id="inputPassword" placeholder="Enter password" name="password" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
+                <div class="form-group">
+                    <br>
+                    <label for="register">Heb je nog geen account?</label>
+                    <br>
+                    <a href="/DDWT20-Final-Project/register/" role="button" class="btn btn-secondary">Registreer hier!</a>
+                </div>
             </form>
 
         </div>

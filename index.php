@@ -236,11 +236,17 @@ elseif (new_route('/DDWT20-Final-Project/register/', 'get')) {
 
 /* Register user POST */
 elseif (new_route('/DDWT20-Final-Project/register/', 'POST')) {
-    /* General page information */
-
-    /* Specific page information */
-
-    /* Used template */
+    /* Register user */
+    $feedback = register_user($db, $_POST);
+    /* Redirect to my account */
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/register/?error_msg=%s',
+            json_encode($feedback)));
+    } else {
+        /* Redirect to room overview */
+        redirect(sprintf('/DDWT20-Final-Project/myaccount/?error_msg=%s',
+            json_encode($feedback)));
+    }
 }
 
 /* Login GET */

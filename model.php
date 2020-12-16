@@ -382,3 +382,80 @@ function remove_room($pdo, $room_id){
         ];
     }
 }
+
+function register_user($pdo, $form_data){
+    /* Check if all fields are set */
+    if (
+        empty($form_data['username']) or
+        empty($form_data['password']) or
+        empty($form_data['birth_date']) or
+        empty($form_data['biography']) or
+        empty($form_data['email']) or
+        empty($form_data['phonenumber']) or
+        empty($form_data['occupation']) or
+        empty($form_data['language']) or
+        empty($form_data['full_name'])
+    ) {
+        return [
+            'type' => 'danger',
+            'message' => 'Niet alle velden zijn ingevuld.'.$form_data['occupation']
+        ];
+    }
+
+    /* Check if user already exists */
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
+        $stmt->execute([$form_data['username']]);
+        $user_exists = $stmt->rowCount();
+    } catch (\PDOException $e) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf('Er ging wat mis: %s', $e->getMessage())
+        ];
+    }
+    /* Return error message for existing username */
+    if ( !empty($user_exists) ) {
+        return [
+            'type' => 'danger',
+            'message' => 'Deze gebruikersnaam bestaat al!'
+        ];
+    }
+
+    /* Hash password */
+    $password = password_hash($form_data['password'], PASSWORD_DEFAULT);
+
+    /* Save user to the database */
+    try {
+        $stmt = $pdo->prepare('INSERT INTO users (username, password, birth_date, biography, email, phonenumber, occupation, language, role, full_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt->execute(
+            [
+                $form_data['username'],
+                $password,
+                $form_data['birth_date'],
+                $form_data['biography'],
+                $form_data['email'],
+                $form_data['phonenumber'],
+                $form_data['occupation'],
+                $form_data['language'],
+                $form_data['role'],
+                $form_data['full_name']
+            ]
+        );
+        $user_id = $pdo->lastInsertId();
+    } catch (PDOException $e) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf('Er ging iets fout: %s', $e->getMessage())
+        ];
+    }
+
+    /* Login user and redirect */
+    session_start();
+    $_SESSION['user_id'] = $user_id;
+    $feedback = [
+        'type' => 'success',
+        'message' => sprintf('%s, je account is aangemaakt!', $form_data['username'])
+    ];
+    redirect(sprintf('/DDWT20-Final-Project/myaccount/?error_msg=%s',
+        json_encode($feedback)));
+}

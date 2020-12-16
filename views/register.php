@@ -35,51 +35,51 @@
 
             <div class="pd-15">&nbsp;</div>
 
-            <form action="/DDWT20_finalproject/register/" method="POST">
+            <form action="/DDWT20-Final-Project/register/" method="POST">
                 <div class="form-group">
-                    <label for="inputUsername">Username</label>
-                    <input type="text" class="form-control" id="inputUsername" placeholder="j.jansen" name="username" required>
+                    <label for="inputUsername">Gebruikersnaam</label>
+                    <input type="text" class="form-control" id="inputUsername" placeholder="j.jansen" name="username">
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="******" name="password" required>
+                    <label for="inputPassword">Wachtwoord</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="******" name="password">
                 </div>
                 <div class="form-group">
-                    <label for="inputFullname">Full name</label>
-                    <input type="text" class="form-control" id="inputFullname" placeholder="Jan Jansen" name="fullname" required>
+                    <label for="inputFullname">Volledige naam</label>
+                    <input type="text" class="form-control" id="inputFullname" placeholder="Jan Jansen" name="full_name">
                 </div>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="j.jansen@email.com" name="email" required>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="j.jansen@email.com" name="email">
                 </div>
                 <div class="form-group">
-                    <label for="inputPhonenumber">Phone number</label>
-                    <input type="tel" class="form-control" id="inputPhonenumber" placeholder="0612345678" name="phonenumber" required>
+                    <label for="inputPhonenumber">Telefoonnummer</label>
+                    <input type="tel" class="form-control" id="inputPhonenumber" placeholder="0612345678" name="phonenumber">
                 </div>
                 <div class="form-group">
-                    <label for="inputBirthdate">Birth date</label>
-                    <input type="date" class="form-control" id="inputBirthdate" placeholder="YYYY-MM-DD" name="birthdate" required>
+                    <label for="inputBirthdate">Geboortedatum</label>
+                    <input type="text" class="form-control" id="inputBirthdate" placeholder="YYYY-MM-DD" name="birth_date">
                 </div>
                 <div class="form-group">
-                    <label for="inputLanguage">Language</label>
-                    <input type="text" class="form-control" id="inputLanguage" placeholder="Dutch" name="language" required>
+                    <label for="inputLanguage">Taal</label>
+                    <input type="text" class="form-control" id="inputLanguage" placeholder="Dutch" name="language">
                 </div>
                 <div class="form-group">
-                    <label for="inputStudyProfession">Study/Profession</label>
-                    <input type="text" class="form-control" id="inputStudyProfession" placeholder="Information Science" name="studyprofession" required>
+                    <label for="inputStudyProfession">Studie of Beroep</label>
+                    <input type="text" class="form-control" id="inputStudyProfession" placeholder="Information Science" name="occupation">
                 </div>
                 <div class="form-group">
-                    <label for="inputBiography">Biography</label>
-                    <input type="text" class="form-control" id="inputBiography" placeholder="Bio" name="biography" required>
+                    <label for="inputBiography">Biografie</label>
+                    <textarea type="text" class="form-control" id="inputBiography" placeholder="Bio" name="biography"></textarea>
                 </div>
                 <div class="form-group">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="tenant" value="tenant">
-                        <label class="form-check-label" for="tenant">I want to rent a room</label>
+                        <input class="form-check-input" type="radio" name="role" id="tenant" value="0" checked="checked">
+                        <label class="form-check-label" for="tenant">Ik wil een kamer huren</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="owner" value="owner">
-                        <label class="form-check-label" for="owner">I want to rent out a room</label>
+                        <input class="form-check-input" type="radio" name="role" id="owner" value="1">
+                        <label class="form-check-label" for="owner">Ik wil een kamer verhuren</label>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Register now</button>

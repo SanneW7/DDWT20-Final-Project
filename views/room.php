@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <th scope="row">Verhuurder</th>
-                    <td><?= $room_info['owner'] ?></td>
+                    <td><?= $owner_name ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Adres</th>
@@ -74,8 +74,7 @@
                     <a href="/DDWT20-Final-Project/edit/?id=<?= $room_info['id'] ?>" role="button" class="btn btn-warning">Edit</a>
                 </div>
                 <div class="col-sm-2">
-                    <form action="/DDWT20-Final-Project/delete/"
-                          method="POST">
+                    <form action="/DDWT20-Final-Project/delete/" method="POST">
                         <input type="hidden" value="<?= $room_info['id'] ?>" name="id">
                         <button type="submit" class="btn btn-danger">Remove</button>
                     </form>

@@ -35,43 +35,46 @@
 
             <div class="pd-15">&nbsp;</div>
 
-            <form action="/DDWT20-Final-Project/register/" method="POST">
+            <form action=<?= $form_action ?> method="POST">
                 <div class="form-group">
                     <label for="inputUsername">Gebruikersnaam</label>
-                    <input type="text" class="form-control" id="inputUsername" placeholder="j.jansen" name="username">
+                    <input type="text" class="form-control" id="inputUsername" placeholder="j.jansen" name="username" value="<?php if (isset($user_info)){echo $user_info['username'];} ?>">
                 </div>
+                <?php if (!isset($user_info)){ ?>
                 <div class="form-group">
                     <label for="inputPassword">Wachtwoord</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="******" name="password">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="******" name="password" value="">
                 </div>
+                <?php }  ?>
                 <div class="form-group">
                     <label for="inputFullname">Volledige naam</label>
-                    <input type="text" class="form-control" id="inputFullname" placeholder="Jan Jansen" name="full_name">
+                    <input type="text" class="form-control" id="inputFullname" placeholder="Jan Jansen" name="full_name" value="<?php if (isset($user_info)){echo $user_info['full_name'];} ?>">
                 </div>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="j.jansen@email.com" name="email">
+                    <input type="email" class="form-control" id="inputEmail" placeholder="j.jansen@email.com" name="email" value="<?php if (isset($user_info)){echo $user_info['email'];} ?>">
                 </div>
                 <div class="form-group">
                     <label for="inputPhonenumber">Telefoonnummer</label>
-                    <input type="tel" class="form-control" id="inputPhonenumber" placeholder="0612345678" name="phonenumber">
+                    <input type="tel" class="form-control" id="inputPhonenumber" placeholder="0612345678" name="phonenumber" value="<?php if (isset($user_info)){echo $user_info['phonenumber'];} ?>">
                 </div>
                 <div class="form-group">
                     <label for="inputBirthdate">Geboortedatum</label>
-                    <input type="text" class="form-control" id="inputBirthdate" placeholder="YYYY-MM-DD" name="birth_date">
+                    <input type="text" class="form-control" id="inputBirthdate" placeholder="YYYY-MM-DD" name="birth_date" value="<?php if (isset($user_info)){echo $user_info['birth_date'];} ?>">
                 </div>
                 <div class="form-group">
                     <label for="inputLanguage">Taal</label>
-                    <input type="text" class="form-control" id="inputLanguage" placeholder="Nederlands" name="language">
+                    <input type="text" class="form-control" id="inputLanguage" placeholder="Nederlands" name="language" value="<?php if (isset($user_info)){echo $user_info['language'];} ?>">
                 </div>
                 <div class="form-group">
                     <label for="inputStudyProfession">Studie of Beroep</label>
-                    <input type="text" class="form-control" id="inputStudyProfession" placeholder="Informatiekunde" name="occupation">
+                    <input type="text" class="form-control" id="inputStudyProfession" placeholder="Informatiekunde" name="occupation" value="<?php if (isset($user_info)){echo $user_info['occupation'];} ?>">
                 </div>
                 <div class="form-group">
                     <label for="inputBiography">Biografie</label>
-                    <textarea type="text" class="form-control" id="inputBiography" placeholder="Bio" name="biography"></textarea>
+                    <textarea type="text" class="form-control" id="inputBiography" placeholder="Bio" name="biography"><?php if (isset($user_info)){echo $user_info['biography'];} ?></textarea>
                 </div>
+                <?php if (!isset($user_info)){ ?>
                 <div class="form-group">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="role" id="tenant" value="0" checked="checked">
@@ -82,8 +85,28 @@
                         <label class="form-check-label" for="owner">Ik wil een kamer verhuren</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Register now</button>
+                <?php } ?>
+                <?php if(isset($user_id)){ ?><input type="hidden" name="id" value="<?php echo $user_id ?>"><?php } ?>
+                <div class="row">
+                    <div class="col-sm-2">
+                    <button type="submit" class="btn btn-primary"><?= $button_name ?></button>
+                    </div>
+
             </form>
+                <?php if(isset($user_info)){ ?>
+                <form action="/DDWT20-Final-Project/delete_account/" method="POST">
+                    <div class="form-group">
+                        <input type="hidden" value="<?= $user_info['id'] ?>" name="id">
+                        <div class="col-sm-2">
+                        <button type="submit" class="btn btn-danger">Account verwijderen</button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+                <?php } ?>
+
+
+
 
         </div>
 

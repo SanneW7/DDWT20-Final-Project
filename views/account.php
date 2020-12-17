@@ -43,16 +43,52 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    Welkom, <?= $username ?>
+                    Je bent ingelogd in Kamernet2
                 </div>
                 <div class="card-body">
-                    <p>Je bent ingelogd in Kamernet2</p>
+                    <p>De gegevens van <?= $username ?></p>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th scope="row">Gebruikersnaam</th>
+                            <td><?= $user_info['username'] ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Naam</th>
+                            <td><?= $user_info['full_name'] ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td><?= $user_info['email'] ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Telefoonnummer</th>
+                            <td><?= $user_info['phonenumber'] ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Geboortedatum</th>
+                            <td><?= $user_info['birth_date'] ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Taal</th>
+                            <td><?= $user_info['language'] ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Studie/Beroep</th>
+                            <td><?= $user_info['occupation'] ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Biografie</th>
+                            <td><?= $user_info['biography'] ?></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <a href="/DDWT20-Final-Project/edit_account/" class="btn btn-warning">Bewerk je gegevens</a>
                     <a href="/DDWT20-Final-Project/logout/" class="btn btn-primary">Logout</a>
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 

@@ -623,3 +623,111 @@ function get_name($pdo, $user_id){
     $name = $stmt->fetch();
     return htmlspecialchars($name['full_name']);
 }
+function get_user_info($pdo, $user_id){
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
+    $stmt->execute([$user_id]);
+    $user_info = $stmt->fetch();
+    $user_info_exp = Array();
+
+    /* Create array with htmlspecialchars */
+    foreach ($user_info as $key => $value){
+        $user_info_exp[$key] = htmlspecialchars($value);
+    }
+    return $user_info_exp;
+}
+function update_user($pdo, $user_info){
+    /* Empty check */
+    if (
+        empty($user_info['username']) or
+        empty($user_info['full_name']) or
+        empty($user_info['email']) or
+        empty($user_info['phonenumber']) or
+        empty($user_info['birth_date']) or
+        empty($user_info['language']) or
+        empty($user_info['occupation']) or
+        empty($user_info['biography'])
+    ) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul alle velden in om door te gaan.'
+        ];
+    }
+
+    /* Numeric check   Jesmer: hier komen we later op terug kusjes ruth
+    if (!is_numeric($room_info['price'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Prijs.'
+        ];
+    } elseif (!is_numeric($room_info['size'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Oppervlakte.'
+        ];
+    } elseif (!is_numeric($room_info['housenumber'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul een getal in in het veld Huisnummer.'
+        ];
+    }*/
+
+    /* Get current user name */
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
+    $stmt->execute([$user_info['id']]);
+    $user = $stmt->fetch();
+
+    /*$display_buttons = $serie_info['user'] == $_SESSION['user_id'];
+    if ($display_buttons) {
+        /* Update Serie
+        $user_id = $_SESSION['user_id']; */
+    $stmt = $pdo->prepare("UPDATE users SET username = ?, full_name = ?, email = ?, phonenumber = ?, birth_date = ?, language = ?, occupation = ?, biography = ? WHERE id = ?");
+    $stmt->execute([
+        $user_info['username'],
+        $user_info['full_name'],
+        $user_info['email'],
+        $user_info['phonenumber'],
+        $user_info['birth_date'],
+        $user_info['language'],
+        $user_info['occupation'],
+        $user_info['biography'],
+        $user_info['id']
+    ]);
+    $updated = $stmt->rowCount();
+    /*}*/
+    if ($updated ==  1) {
+        return [
+            'type' => 'success',
+            'message' => sprintf("Account informatie is gewijzigd!")
+        ];
+    }
+    else {
+        return [
+            'type' => 'warning',
+            'message' => 'Er is iets fout gegaan. Probeer het opnieuw!'
+        ];
+    }
+}
+function remove_user($pdo, $user_id){
+    /* Get room info
+    $room_info = get_serieinfo($pdo, $room_id);
+    /*$display_buttons = $serie_info['user'] == $_SESSION['user_id'];*/
+
+    /* Delete room */
+    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $deleted = $stmt->rowCount();
+    if ($deleted ==  1) {
+        logout_user();
+        return [
+            'type' => 'success',
+            'message' => 'Je account is verwijderd!'
+        ];
+    }
+    else {
+        return [
+            'type' => 'warning',
+            'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'.$user_id
+        ];
+    }
+
+}

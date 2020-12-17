@@ -12,6 +12,10 @@ $template_login = Array(
     5 => Array(
         'name' => 'Login',
         'url' => '/DDWT20-Final-Project/login/'
+    ),
+    6 => Array(
+        'name' => 'Registreren',
+        'url'  => '/DDWT20-Final-Project/register/'
     )
 );
 
@@ -101,6 +105,7 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
     /* Specific page information */
     $page_subtitle = 'Kamer info';
     $page_content = 'Hier vind je de specifieke informatie over deze kamer';
+    $owner_name = get_name($db, $room_info['owner']);
     if ($room_info['owner'] == get_current()){
         $display_buttons = True;
     } else {
@@ -213,8 +218,58 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'post')) {
         redirect(sprintf('/DDWT20-Final-Project/room/?id=%s&error_msg=%s',
             json_encode(intval($room_id)), json_encode($feedback)));
     }
-}
 
+}
+/* EDIT account GET */
+elseif(new_route('/DDWT20-Final-Project/edit_account/', 'get')){
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');}
+    /* Get user information */
+    $user_id = $_SESSION['user_id'];
+    $user_info = get_user_info($db, $user_id);
+
+    /* General page information */
+    $page_title = 'Account informatie aanpassen';
+    $breadcrumbs = get_breadcrumbs([
+        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Mijn account' => na('/DDWT20-Final-Project/myaccount/', False),
+        'Account aanpassen' => na('/DDWT20-Final-Project/edit_account', True)
+    ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
+    $navigation = get_navigation($template, 0);
+
+    /* Specific page information */
+    $page_subtitle = sprintf('% aanpassen', 'ACCOUNT');
+    $page_content = 'Pas de velden aan';
+    $form_action = '/DDWT20-Final-Project/edit_account/';
+    $button_name = "Account aanpassen";
+
+    if (isset($_GET['error_msg']) ) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
+    /* Used template */
+    include use_template('register');
+
+}
+/* EDIT account POST */
+elseif (new_route('/DDWT20-Final-Project/edit_account/', 'post')) {
+    $feedback = update_user($db, $_POST);
+    $user_id = $_POST['id'];
+
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/edit_account/?error_msg=%s',
+            json_encode($feedback)));
+    } else {
+        redirect(sprintf('/DDWT20-Final-Project/myaccount/?error_msg=%s',
+            json_encode($feedback)));
+    }
+
+}
 /* DELETE room */
 elseif (new_route('/DDWT20-Final-Project/delete/', 'post')) {
     $room_id = $_POST['id'];
@@ -226,6 +281,21 @@ elseif (new_route('/DDWT20-Final-Project/delete/', 'post')) {
     } else {
         /* Redirect to room overview */
         redirect(sprintf('/DDWT20-Final-Project/rooms/?error_msg=%s',
+            json_encode($feedback)));
+    }
+}
+
+/* DELETE account */
+elseif (new_route('/DDWT20-Final-Project/delete_account/', 'post')) {
+    $user_id = $_POST['id'];
+    $feedback = remove_user($db, $user_id);
+
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/myaccount/?error_msg=%s',
+            json_encode($feedback)));
+    } else {
+        /* Redirect to homepage */
+        redirect(sprintf('/DDWT20-Final-Project/?error_msg=%s',
             json_encode($feedback)));
     }
 }
@@ -253,6 +323,7 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
     $page_content = 'Hier zie je een overzicht van je kamers';
     $user = get_name($db, $_SESSION['user_id']);
     $username = get_username($db, $_SESSION['user_id']);
+    $user_info = get_user_info($db, $_SESSION['user_id']);
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);
@@ -275,11 +346,13 @@ elseif (new_route('/DDWT20-Final-Project/register/', 'get')) {
     } else{
         $template = $template_login;
     }
-    $navigation = get_navigation($template, 5);
+    $navigation = get_navigation($template, 6);
 
     /* Specific page information */
     $page_subtitle = 'Registreer je account';
     $page_content = 'Vul alle velden in om te registreren';
+    $form_action = '/DDWT20-Final-Project/register/';
+    $button_name = 'Registreer';
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);

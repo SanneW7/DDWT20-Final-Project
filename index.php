@@ -101,6 +101,11 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
     /* Specific page information */
     $page_subtitle = 'Kamer info';
     $page_content = 'Hier vind je de specifieke informatie over deze kamer';
+    if ($room_info['owner'] == get_current()){
+        $display_buttons = True;
+    } else {
+        $display_buttons = False;
+    }
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);
@@ -114,6 +119,8 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
 elseif (new_route('/DDWT20-Final-Project/add_room/', 'get')) {
     if (!check_login()){
         redirect('/DDWT20-Final-Project/login/');
+    } elseif (get_role($db, $_SESSION['user_id']) == 0){
+        redirect('/DDWT20-Final-Project/');
     }
     /* General page information */
     $page_title = 'Kamer toevoegen';
@@ -144,7 +151,8 @@ elseif (new_route('/DDWT20-Final-Project/add_room/', 'get')) {
 
 /* ADD room POST */
 elseif (new_route('/DDWT20-Final-Project/add_room/', 'post')) {
-    $feedback = add_room($db, $_POST);
+    session_start();
+    $feedback = add_room($db, $_POST, $_SESSION['user_id']);
 
     if ($feedback['type'] == 'danger') {
         redirect(sprintf('/DDWT20-Final-Project/add_room/?error_msg=%s',
@@ -159,6 +167,8 @@ elseif (new_route('/DDWT20-Final-Project/add_room/', 'post')) {
 elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
     if (!check_login()){
         redirect('/DDWT20-Final-Project/login/');
+    }  elseif (get_role($db, $_SESSION['user_id']) == 0 or get_owner($db, $_GET['id']) != $_SESSION['user_id']){
+        redirect('/DDWT20-Final-Project/');
     }
     /* Get room information */
     $room_id = $_GET['id'];
@@ -239,9 +249,10 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
     $navigation = get_navigation($template, 4);
 
     /* Specific page information */
-    $page_subtitle = 'Welkom';
+    $page_subtitle = 'Welkom ';
     $page_content = 'Hier zie je een overzicht van je kamers';
-    $user = get_username($db, $_SESSION['user_id']);
+    $user = get_name($db, $_SESSION['user_id']);
+    $username = get_username($db, $_SESSION['user_id']);
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);

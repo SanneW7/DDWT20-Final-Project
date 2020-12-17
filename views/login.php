@@ -37,12 +37,12 @@
 
             <form action="/DDWT20-Final-Project/login/" method="POST">
                 <div class="form-group">
-                    <label for="inputUsername">Username</label>
-                    <input type="text" class="form-control" id="inputUsername" placeholder="Enter username" name="username" required>
+                    <label for="inputUsername">Gebruikernaam</label>
+                    <input type="text" class="form-control" id="inputUsername" placeholder="Gebruikersnaam" name="username" required>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Enter password" name="password" required>
+                    <label for="inputPassword">Wachtwoord</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="*****" name="password" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
                 <div class="form-group">

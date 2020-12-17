@@ -62,11 +62,11 @@
                 </div>
                 <div class="form-group">
                     <label for="inputLanguage">Taal</label>
-                    <input type="text" class="form-control" id="inputLanguage" placeholder="Dutch" name="language">
+                    <input type="text" class="form-control" id="inputLanguage" placeholder="Nederlands" name="language">
                 </div>
                 <div class="form-group">
                     <label for="inputStudyProfession">Studie of Beroep</label>
-                    <input type="text" class="form-control" id="inputStudyProfession" placeholder="Information Science" name="occupation">
+                    <input type="text" class="form-control" id="inputStudyProfession" placeholder="Informatiekunde" name="occupation">
                 </div>
                 <div class="form-group">
                     <label for="inputBiography">Biografie</label>

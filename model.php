@@ -133,7 +133,7 @@ function p_print($input){
     echo '</pre>';
 }
 
-function add_room($pdo, $room_info){
+function add_room($pdo, $room_info, $user_id){
     /* Empty check */
     if (
         empty($room_info['price']) or
@@ -180,7 +180,7 @@ function add_room($pdo, $room_info){
     $stmt = $pdo->prepare("INSERT INTO rooms (price, owner, type, size, streetname, city, zip_code, house_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([
         $room_info['price'],
-        1,
+        $user_id,
         $room_info['type'],
         $room_info['size'],
         $room_info['street'],
@@ -235,10 +235,10 @@ function get_room_table($pdo, $rooms){
     <table class="table table-hover">
     <thead
     <th>
-        <th scop="col">City</th>
-        <th scope="col">Street name</th>
-        <th scope="col">Price</th>
-        <th scop="col">Size</th>
+        <th scop="col">Stad</th>
+        <th scope="col">Straat</th>
+        <th scope="col">Prijs</th>
+        <th scop="col">Oppervlakte</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -250,7 +250,7 @@ function get_room_table($pdo, $rooms){
             <th scope="row">'.$value['streetname'].'</th>
             <th scope="row">'.$value['price'].'</th>
             <th scope="row">'.$value['size'].'</th>
-            <td><a href="/DDWT20-Final-Project/room/?id='.$value['id'].'" role="button" class="btn btn-primary">More info</a></td>
+            <td><a href="/DDWT20-Final-Project/room/?id='.$value['id'].'" role="button" class="btn btn-primary">Meer informatie</a></td>
         </tr>
         ';
     }
@@ -522,7 +522,9 @@ function login_user($pdo, $form_data){
 }
 
 function check_login(){
-    session_start();
+    if (session_status() !=2) {
+        session_start();
+    }
     if (isset($_SESSION['user_id'])){
         return True;
     } else {
@@ -598,4 +600,26 @@ function get_role($pdo, $id){
     $stmt->execute([$id]);
     $role = $stmt->fetch();
     return htmlspecialchars($role['role']);
+}
+
+function get_owner($pdo, $room_id){
+    $stmt = $pdo->prepare("SELECT owner FROM rooms WHERE id = ?");
+    $stmt->execute([$room_id]);
+    $owner_id = $stmt->fetch();
+    return htmlspecialchars($owner_id['owner']);
+}
+
+function get_current(){
+    if (check_login()){
+        return $_SESSION['user_id'];
+    } else {
+        return 0;
+    }
+}
+
+function get_name($pdo, $user_id){
+    $stmt = $pdo->prepare('SELECT full_name FROM users WHERE id = ?');
+    $stmt->execute([$user_id]);
+    $name = $stmt->fetch();
+    return htmlspecialchars($name['full_name']);
 }

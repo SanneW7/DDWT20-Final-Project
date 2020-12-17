@@ -29,7 +29,7 @@
             <!-- Error message -->
             <?php if (isset($error_msg)){echo $error_msg;} ?>
 
-            <h1><?= $page_title ?></h1>
+            <h1><?= $page_title.$user ?></h1>
             <h5><?= $page_subtitle ?></h5>
             <p><?= $page_content ?></p>
         </div>
@@ -43,26 +43,15 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    Welcome, <?= 'user'//$user ?>
+                    Welkom, <?= $username ?>
                 </div>
                 <div class="card-body">
-                    <p>You're logged in to Profiel Overview.</p>
+                    <p>Je bent ingelogd in Kamernet2</p>
                     <a href="/DDWT20-Final-Project/logout/" class="btn btn-primary">Logout</a>
                 </div>
             </div>
         </div>
 
-        <!--<div class="col-md-4">   only if your owner
-            <div class="card">
-                <div class="card-header">
-                    Add room
-                </div>
-                <div class="card-body">
-                    <p>Add your contribution to Series Overview.</p>
-                    <a href="/DDWT20_finalproject/add/" class="btn btn-primary">Add a series</a>
-                </div>
-            </div>
-        </div>-->
 
     </div>
 </div>

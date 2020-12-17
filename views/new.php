@@ -35,7 +35,7 @@
             <p><?= $page_content ?></p>
             <form action="<?= $form_action ?>" method="POST">
                 <div class="form-group row">
-                    <label for="inputPrice" class="col-sm-2 col-form-label">Price</label>
+                    <label for="inputPrice" class="col-sm-2 col-form-label">Prijs</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputPrice" name="price" value="<?php if (isset($room_info)){echo $room_info['price'];} ?>">
                     </div>
@@ -47,31 +47,31 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputSize" class="col-sm-2 col-form-label">Size</label>
+                    <label for="inputSize" class="col-sm-2 col-form-label">Oppervlakte</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputSize" name="size" value="<?php if (isset($room_info)){echo $room_info['size'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputStreet" class="col-sm-2 col-form-label">Street</label>
+                    <label for="inputStreet" class="col-sm-2 col-form-label">Straatnaam</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputStreet" name="street" value="<?php if (isset($room_info)){echo $room_info['streetname'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputHouseNumber" class="col-sm-2 col-form-label">House Number</label>
+                    <label for="inputHouseNumber" class="col-sm-2 col-form-label">Huisnummer</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputHouseNumber" name="housenumber" value="<?php if (isset($room_info)){echo $room_info['house_number'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputZipcode" class="col-sm-2 col-form-label">Zipcode</label>
+                    <label for="inputZipcode" class="col-sm-2 col-form-label">Postcode</label>
                     <div class="col-sm-10">
                         <input type="text" maxlength="6" class="form-control" id="inputZipcode" name="zipcode" value="<?php if (isset($room_info)){echo $room_info['zip_code'];} ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputCity" class="col-sm-2 col-form-label">City</label>
+                    <label for="inputCity" class="col-sm-2 col-form-label">Stad</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputCity" name="city" value="<?php if (isset($room_info)){echo $room_info['city'];} ?>">
                     </div>

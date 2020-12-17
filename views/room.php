@@ -38,7 +38,7 @@
             <table class="table">
                 <tbody>
                 <tr>
-                    <th scope="row">Price</th>
+                    <th scope="row">Prijs</th>
                     <td><?= $room_info['price'] ?></td>
                 </tr>
                 <tr>
@@ -46,28 +46,29 @@
                     <td><?= $room_info['type'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">Size</th>
+                    <th scope="row">Oppervlakte</th>
                     <td><?= $room_info['size'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">Owner</th>
+                    <th scope="row">Verhuurder</th>
                     <td><?= $room_info['owner'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">Address</th>
+                    <th scope="row">Adres</th>
                     <td><?= $room_info['streetname']. ' ' .$room_info['house_number'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">Zipcode</th>
+                    <th scope="row">Postcode</th>
                     <td><?= $room_info['zip_code'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">City</th>
+                    <th scope="row">Stad</th>
                     <td><?= $room_info['city'] ?></td>
                 </tr>
 
                 </tbody>
             </table>
+            <?php if ($display_buttons) { ?>
             <div class="row">
                 <div class="col-sm-2">
                     <a href="/DDWT20-Final-Project/edit/?id=<?= $room_info['id'] ?>" role="button" class="btn btn-warning">Edit</a>
@@ -80,6 +81,7 @@
                     </form>
                 </div>
             </div>
+            <?php } ?>
         </div>
 
         <!-- Right column -->

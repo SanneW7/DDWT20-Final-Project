@@ -361,15 +361,22 @@ function update_room($pdo, $room_info){
 }
 
 function remove_room($pdo, $room_id){
-    /* Delete all opt_in instances */
-    $stmt = $pdo->prepare("DELETE FROM opt_in WHERE room_id = ?");
-    $stmt->execute([$room_id]);
-    $deleted = $stmt->rowCount();
-    if ($deleted == 0) {
+    /* Check if there are opt-ins */
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM opt_in WHERE room_id = ?');
+        $stmt->execute([$room_id]);
+        $room_info = $stmt->fetch();
+    } catch (\PDOException $e) {
         return [
-            'type' => 'warning',
-            'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'
+            'type' => 'danger',
+            'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
         ];
+    }
+    /* Delete all opt-in instances */
+    if (!empty($room_info) ) {
+        /* Delete all opt-in instances */
+        $stmt = $pdo->prepare("DELETE FROM opt_in WHERE room_id = ?");
+        $stmt->execute([$room_id]);
     }
 
     /* Delete room */
@@ -603,7 +610,7 @@ function template_check($pdo, $user_id){
     }
 }
 function get_role($pdo, $id){
-    $stmt = $pdo->prepare("SELECT role  FROM users WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
     $stmt->execute([$id]);
     $role = $stmt->fetch();
     return htmlspecialchars($role['role']);
@@ -715,18 +722,43 @@ function update_user($pdo, $user_info){
     }
 }
 function remove_user($pdo, $user_id){
-    /* Delete all opt_in instances */
-    $stmt = $pdo->prepare("DELETE FROM opt_in WHERE user_id = ?");
-    $stmt->execute([$user_id]);
-    $deleted = $stmt->rowCount();
-    if ($deleted == 0) {
+    /* Check if there are opt-ins */
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM opt_in WHERE user_id = ?');
+        $stmt->execute([$user_id]);
+        $user_info = $stmt->fetch();
+    } catch (\PDOException $e) {
         return [
-            'type' => 'warning',
-            'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'
+            'type' => 'danger',
+            'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
         ];
     }
 
-    /* Delete room */
+    /* Delete all opt_in instances */
+    if (!empty($user_info) ) {
+        $stmt = $pdo->prepare("DELETE FROM opt_in WHERE user_id = ?");
+        $stmt->execute([$user_id]);
+    }
+
+    /* Check if there are any rooms the user owns */
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM rooms WHERE owner = ?');
+        $stmt->execute([$user_id]);
+        $user_info = $stmt->fetch();
+    } catch (\PDOException $e) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
+        ];
+    }
+
+    /* Delete all rooms the user owns */
+    if (!empty($user_info) ) {
+        $stmt = $pdo->prepare("DELETE FROM rooms WHERE owner = ?");
+        $stmt->execute([$user_id]);
+    }
+
+    /* Delete user */
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
     $deleted = $stmt->rowCount();
@@ -814,28 +846,33 @@ function opt_in($pdo, $user_id, $room_id){
     }
 }
 
-function get_opt_in_rooms($pdo, $user_id){
+function get_user_rooms($pdo, $user_id){
+    if (get_role($pdo, $user_id) == 0) {
+        $query = 'SELECT * FROM rooms R, opt_in OI WHERE R.id = OI.room_id AND OI.user_id = ?';
+    } else {
+        $query = 'SELECT * FROM rooms WHERE owner = ?';
+    }
     try {
-        $stmt = $pdo->prepare('SELECT * FROM rooms R, opt_in OI WHERE R.id = OI.room_id AND OI.user_id = ?');
+        $stmt = $pdo->prepare($query);
         $stmt->execute([$user_id]);
-        $opt_in = $stmt->fetchAll();
+        $user = $stmt->fetchAll();
     } catch (\PDOException $e) {
         return [
             'type' => 'danger',
             'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
         ];
     }
-    $opt_in_exp = Array();
+    $user_exp = Array();
     /* Create array with htmlspecialchars */
-    foreach ($opt_in as $key => $value){
-        foreach ($value as $opt_in_key => $opt_in_input) {
-            $opt_in_exp[$key][$opt_in_key] = htmlspecialchars($opt_in_input);
+    foreach ($user as $key => $value){
+        foreach ($value as $user_key => $user_input) {
+            $user_exp[$key][$user_key] = htmlspecialchars($user_input);
         }
     }
-    return $opt_in_exp;
+    return $user_exp;
 }
 
-function get_opt_in_table($rooms){
+function get_account_table($rooms){
     $table_exp = '
     <table class="table table-hover">
     <thead

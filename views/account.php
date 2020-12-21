@@ -98,7 +98,7 @@
                     <?php if(isset($room_content)){
                         echo $room_content;
                     } else {
-                        echo "Je hebt je nog niet ingeschreven voor een kamer!";
+                        echo "Er is nog geen kamer informatie";
                     } ?>
                 </div>
             </div>

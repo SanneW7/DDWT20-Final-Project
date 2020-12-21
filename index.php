@@ -331,7 +331,7 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
     $user = get_name($db, $_SESSION['user_id']);
     $username = get_username($db, $_SESSION['user_id']);
     $user_info = get_user_info($db, $_SESSION['user_id']);
-    $room_content = get_opt_in_table(get_opt_in_rooms($db, $_SESSION['user_id']));
+    $room_content = get_account_table(get_user_rooms($db, $_SESSION['user_id']));
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);

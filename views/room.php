@@ -68,7 +68,7 @@
 
                 </tbody>
             </table>
-            <?php if ($display_buttons) { ?>
+            <?php if ($display_buttons_owner) { ?>
             <div class="row">
                 <div class="col-sm-2">
                     <a href="/DDWT20-Final-Project/edit/?id=<?= $room_info['id'] ?>" role="button" class="btn btn-warning">Edit</a>
@@ -77,6 +77,16 @@
                     <form action="/DDWT20-Final-Project/delete/" method="POST">
                         <input type="hidden" value="<?= $room_info['id'] ?>" name="id">
                         <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </div>
+            </div>
+            <?php } ?>
+            <?php if ($display_buttons_tenant) { ?>
+            <div class="row">
+                <div class="col-sm-2">
+                    <form action="/DDWT20-Final-Project/opt-in/" method="POST">
+                        <input type="hidden" type="number" value="<?= $room_info['id'] ?>" name="id">
+                        <?= $button_opt_in ?>
                     </form>
                 </div>
             </div>

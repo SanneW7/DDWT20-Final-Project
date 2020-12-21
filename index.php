@@ -107,10 +107,17 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
     $page_content = 'Hier vind je de specifieke informatie over deze kamer';
     $owner_name = get_name($db, $room_info['owner']);
     if ($room_info['owner'] == get_current()){
-        $display_buttons = True;
+        $display_buttons_owner = True;
     } else {
-        $display_buttons = False;
+        $display_buttons_owner = False;
     }
+    if (get_role($db, $_SESSION['user_id']) == 0){
+        $display_buttons_tenant = True;
+    } else {
+        $display_buttons_tenant = False;
+    }
+    $check = check_opt_in($db, $_SESSION['user_id'], $room_id);
+    $button_opt_in = $check['button'];
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);
@@ -417,6 +424,27 @@ elseif (new_route('/DDWT20-Final-Project/login/', 'post')) {
         /* Redirect to room overview */
         redirect(sprintf('/DDWT20-Final-Project/myaccount/?error_msg=%s',
             json_encode($feedback)));
+    }
+}
+
+/* Opt-in POST */
+elseif (new_route('/DDWT20-Final-Project/opt-in/', 'post')) {
+    session_start();
+    $room_id = $_POST['id'];
+    $check = check_opt_in($db, $_SESSION['user_id'], $room_id);
+    if ($check['opt_in'] == True) {
+        $feedback = opt_in($db, $_SESSION['user_id'], intval($room_id));
+    }
+    else {
+        $feedback = opt_out($db, $_SESSION['user_id'], intval($room_id));
+    }
+    //$feedback = opt_out($db, $_SESSION['user_id'], intval($room_id));
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/room/?id=%s&error_msg=%s',
+            json_encode(intval($room_id)), json_encode($feedback)));
+    } else {
+        redirect(sprintf('/DDWT20-Final-Project/room/?id=%s&error_msg=%s',
+            json_encode(intval($room_id)), json_encode($feedback)));
     }
 }
 

@@ -731,3 +731,72 @@ function remove_user($pdo, $user_id){
     }
 
 }
+function check_opt_in($pdo, $user_id, $room_id){
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM opt_in WHERE user_id = ? AND room_id = ?');
+        $stmt->execute([$user_id, $room_id]);
+        $info = $stmt->fetch();
+    } catch (\PDOException $e) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
+        ];
+    }
+    if (empty($info)) {
+        return [
+            'opt_in' => True,
+            'button' => '<button type="submit" class="btn btn-warning">Inschrijven</button>'
+        ];
+    }
+    else{
+        return [
+            'opt_in' => False,
+            'button' => '<button type="submit" class="btn btn-danger">Uitschrijven</button>'
+        ];
+    }
+}
+
+function opt_out($pdo, $user_id, $room_id){
+    $room_id = intval($room_id);
+    $user_id = intval($user_id);
+    $stmt = $pdo->prepare("DELETE FROM opt_in WHERE user_id = ? AND room_id = ?");
+    $stmt->execute([intval($user_id), intval($room_id)]);
+    $deleted = $stmt->rowCount();
+    if ($deleted ==  1) {
+        return [
+            'type' => 'success',
+            'message' => 'Je hebt je uitgeschreven voor deze kamer'
+        ];
+    }
+    else {
+        return [
+            'type' => 'warning',
+            'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'
+        ];
+    }
+}
+function opt_in($pdo, $user_id, $room_id){
+    $room_id = intval($room_id);
+    $user_id = intval($user_id);
+    $stmt = $pdo->prepare('INSERT INTO opt_in (user_id, room_id) VALUES (?,?)');
+    $stmt->execute(
+        [
+            $user_id,
+            $room_id
+        ]
+    );
+    $added = $stmt->rowCount();
+    if ($added ==  1) {
+        return [
+            'type' => 'success',
+            'message' => 'Je hebt je ingeschreven voor deze kamer'
+        ];
+    }
+    else {
+        return [
+            'type' => 'warning',
+            'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'
+        ];
+    }
+}
+

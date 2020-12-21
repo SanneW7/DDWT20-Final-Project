@@ -89,6 +89,20 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Kamer informatie
+                </div>
+                <div>
+                    <?php if(isset($room_content)){
+                        echo $room_content;
+                    } else {
+                        echo "Je hebt je nog niet ingeschreven voor een kamer!";
+                    } ?>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

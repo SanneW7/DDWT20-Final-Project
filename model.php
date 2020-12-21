@@ -361,15 +361,22 @@ function update_room($pdo, $room_info){
 }
 
 function remove_room($pdo, $room_id){
-    /* Get room info
-    $room_info = get_serieinfo($pdo, $room_id);
-    /*$display_buttons = $serie_info['user'] == $_SESSION['user_id'];*/
+    /* Delete all opt_in instances */
+    $stmt = $pdo->prepare("DELETE FROM opt_in WHERE room_id = ?");
+    $stmt->execute([$room_id]);
+    $deleted = $stmt->rowCount();
+    if ($deleted == 0) {
+        return [
+            'type' => 'warning',
+            'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'
+        ];
+    }
 
     /* Delete room */
     $stmt = $pdo->prepare("DELETE FROM rooms WHERE id = ?");
     $stmt->execute([$room_id]);
     $deleted = $stmt->rowCount();
-    if ($deleted ==  1) {
+    if ($deleted == 1) {
         return [
             'type' => 'success',
             'message' => 'De kamer is verwijderd!'
@@ -708,9 +715,16 @@ function update_user($pdo, $user_info){
     }
 }
 function remove_user($pdo, $user_id){
-    /* Get room info
-    $room_info = get_serieinfo($pdo, $room_id);
-    /*$display_buttons = $serie_info['user'] == $_SESSION['user_id'];*/
+    /* Delete all opt_in instances */
+    $stmt = $pdo->prepare("DELETE FROM opt_in WHERE user_id = ?");
+    $stmt->execute([$user_id]);
+    $deleted = $stmt->rowCount();
+    if ($deleted == 0) {
+        return [
+            'type' => 'warning',
+            'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'
+        ];
+    }
 
     /* Delete room */
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
@@ -800,3 +814,54 @@ function opt_in($pdo, $user_id, $room_id){
     }
 }
 
+function get_opt_in_rooms($pdo, $user_id){
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM rooms R, opt_in OI WHERE R.id = OI.room_id AND OI.user_id = ?');
+        $stmt->execute([$user_id]);
+        $opt_in = $stmt->fetchAll();
+    } catch (\PDOException $e) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
+        ];
+    }
+    $opt_in_exp = Array();
+    /* Create array with htmlspecialchars */
+    foreach ($opt_in as $key => $value){
+        foreach ($value as $opt_in_key => $opt_in_input) {
+            $opt_in_exp[$key][$opt_in_key] = htmlspecialchars($opt_in_input);
+        }
+    }
+    return $opt_in_exp;
+}
+
+function get_opt_in_table($rooms){
+    $table_exp = '
+    <table class="table table-hover">
+    <thead
+    <th>
+        <th scop="col">Stad</th>
+        <th scope="col">Straat</th>
+        <th scope="col">Prijs</th>
+        <th scop="col">Oppervlakte</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>';
+    foreach($rooms as $key => $value){
+        $table_exp .= '
+        <tr>
+            <th scope="row">'.$value['city'].'</th>
+            <th scope="row">'.$value['streetname'].'</th>
+            <th scope="row">'.$value['price'].'</th>
+            <th scope="row">'.$value['size'].'</th>
+            <td><a href="/DDWT20-Final-Project/room/?id='.$value['id'].'" role="button" class="btn btn-primary">Meer informatie</a></td>
+        </tr>
+        ';
+    }
+    $table_exp .= '
+    </tbody>
+    </table>
+    ';
+    return $table_exp;
+}

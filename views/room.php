@@ -51,7 +51,9 @@
                 </tr>
                 <tr>
                     <th scope="row">Verhuurder</th>
-                    <td><?= $owner_name ?></td>
+                    <td>
+                        <a href="/DDWT20-Final-Project/account_details/?id=<?= $room_info['id'] ?>"><?= $owner_name ?></a>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Adres</th>
@@ -92,14 +94,16 @@
             </div>
             <?php } ?>
         </div>
-
-        <!-- Right column -->
         <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Inschrijvingen
+                </div>
+                <div>
 
-            <?php //include $right_column ?>
-
+                </div>
+            </div>
         </div>
-
     </div>
 </div>
 

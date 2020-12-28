@@ -449,6 +449,33 @@ elseif (new_route('/DDWT20-Final-Project/opt-in/', 'post')) {
     }
 }
 
+/* Account details GET*/
+elseif (new_route('/DDWT20-Final-Project/account_details/', 'get')) {
+    session_start();
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');
+    }
+    /* General page information */
+    $page_title = 'Account details';
+    $breadcrumbs = get_breadcrumbs([
+        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Account details' => na('/DDWT20-Final-Project/', True)
+    ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
+    $navigation = get_navigation($template, 0);
+    $room_id = $_GET['id'];
+    $user_id = get_owner($db, $room_id);
+    $user_info = get_user_info($db, $user_id);
+    /* Used template */
+    include use_template('account_details');
+
+
+}
+
 /* Message GET */
 elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
     if (!check_login()){

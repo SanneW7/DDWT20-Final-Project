@@ -902,3 +902,27 @@ function get_account_table($rooms){
     ';
     return $table_exp;
 }
+
+function get_opt_in_table($opt_in) {
+    $table_exp = '
+    <table class="table table-hover">
+    <thead
+    <th>
+        <th scop="col">Naam</th>
+    </tr>
+    </thead>
+    <tbody>';
+    foreach($opt_in as $key => $value){
+        $table_exp .= '
+        <tr>
+            <td><a href="/DDWT20-Final-Project/account_details/?id='.$value['id'].'"> <?= $full_name ?></a></td>
+        </tr>
+        ';
+    }
+    $table_exp .= '
+    </tbody>
+    </table>
+    ';
+    return $table_exp;
+
+}

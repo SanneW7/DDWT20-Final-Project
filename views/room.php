@@ -94,16 +94,25 @@
             </div>
             <?php } ?>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    Inschrijvingen
-                </div>
-                <div>
 
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        Deze kamer heeft <?= $number_opt_ins ?> inschrijving(en)
+                    </div>
+                    <?php if ($display_buttons_owner) { ?>
+                    <div>
+                        <?php if(isset($opt_in_content)){
+                            echo $opt_in_content;
+                        } else {
+                            echo "Er is nog geen kamer informatie";
+                        } ?>
+                    </div>
+                    <?php } ?>
                 </div>
             </div>
-        </div>
+
+
     </div>
 </div>
 

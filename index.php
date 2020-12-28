@@ -106,6 +106,9 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
     $page_subtitle = 'Kamer info';
     $page_content = 'Hier vind je de specifieke informatie over deze kamer';
     $owner_name = get_name($db, $room_info['owner']);
+    $owner_id = get_owner($db, $room_id);
+    $opt_in_content = get_opt_in_table($db, $room_id);
+    $number_opt_ins = get_number_opt_in($db, $room_id);
     if ($room_info['owner'] == get_current()){
         $display_buttons_owner = True;
     } else {
@@ -467,9 +470,9 @@ elseif (new_route('/DDWT20-Final-Project/account_details/', 'get')) {
         $template = $template_login;
     }
     $navigation = get_navigation($template, 0);
-    $room_id = $_GET['id'];
-    $user_id = get_owner($db, $room_id);
+    $user_id = $_GET['id'];
     $user_info = get_user_info($db, $user_id);
+
     /* Used template */
     include use_template('account_details');
 

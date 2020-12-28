@@ -903,19 +903,27 @@ function get_account_table($rooms){
     return $table_exp;
 }
 
-function get_opt_in_table($opt_in) {
+function get_opt_in_table($pdo, $room_id) {
+    $stmt = $pdo->prepare('SELECT user_id FROM opt_in WHERE room_id = ?');
+    $stmt->execute([$room_id]);
+    $opt_in = $stmt->fetchAll();
+    $opt_in_exp = Array();
+    /* Create array with htmlspecialchars */
+    foreach ($opt_in as $key => $value){
+        foreach ($value as $opt_in_key => $opt_in_input) {
+            $opt_in_exp[$key][$opt_in_key] = htmlspecialchars($opt_in_input);
+        }
+    }
     $table_exp = '
     <table class="table table-hover">
     <thead
-    <th>
-        <th scop="col">Naam</th>
-    </tr>
     </thead>
     <tbody>';
-    foreach($opt_in as $key => $value){
+    foreach($opt_in_exp as $key => $value) {
+        $name = get_name($pdo, $value['user_id']);
         $table_exp .= '
         <tr>
-            <td><a href="/DDWT20-Final-Project/account_details/?id='.$value['id'].'"> <?= $full_name ?></a></td>
+            <td><a href="/DDWT20-Final-Project/account_details/?id='.$value['user_id'].'">'.$name.'</a></td>
         </tr>
         ';
     }
@@ -924,5 +932,13 @@ function get_opt_in_table($opt_in) {
     </table>
     ';
     return $table_exp;
+
+}
+
+function get_number_opt_in($pdo, $room_id) {
+    $stmt = $pdo->prepare('SELECT * FROM opt_in WHERE room_id = ?');
+    $stmt->execute([$room_id]);
+    $number_opt_ins = $stmt->rowCount();
+    return $number_opt_ins;
 
 }

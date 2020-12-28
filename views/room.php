@@ -52,7 +52,7 @@
                 <tr>
                     <th scope="row">Verhuurder</th>
                     <td>
-                        <a href="/DDWT20-Final-Project/account_details/?id=<?= $room_info['id'] ?>"><?= $owner_name ?></a>
+                        <a href="/DDWT20-Final-Project/account_details/?id=<?= $owner_id ?>"><?= $owner_name ?></a>
                     </td>
                 </tr>
                 <tr>

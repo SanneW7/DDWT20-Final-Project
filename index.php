@@ -510,9 +510,6 @@ elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
     $sender_id = get_current();
     $form_action = '/DDWT20-Final-Project/send_message/';
 
-    p_print($sender_id);
-    p_print(get_current());
-
     $message_history = get_message_history($db, $receiver_id, $sender_id);
 
     if ( isset($_GET['error_msg']) ) {

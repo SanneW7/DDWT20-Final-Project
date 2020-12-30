@@ -99,27 +99,27 @@ function get_breadcrumbs($breadcrumbs) {
 function get_navigation($template, $active_id){
     $navigation_exp = '
     <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand">Kamernet2</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">';
-    foreach ($template as $name => $info) {
-        if ($name == $active_id){
-            $navigation_exp .= '<li class="nav-item active">';
-            $navigation_exp .= '<a class="nav-link" href="'.$template[$name]['url'].'">'.$template[$name]['name'].'</a>';
-        }else{
-            $navigation_exp .= '<li class="nav-item">';
-            $navigation_exp .= '<a class="nav-link" href="'.$template[$name]['url'].'">'.$template[$name]['name'].'</a>';
-        }
+        <a class="navbar-brand">Kamernet2</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">';
+            foreach ($template as $name => $info) {
+                if ($name == $active_id){
+                    $navigation_exp .= '<li class="nav-item active">';
+                    $navigation_exp .= '<a class="nav-link" href="'.$template[$name]['url'].'">'.$template[$name]['name'].'</a>';
+                }else{
+                    $navigation_exp .= '<li class="nav-item">';
+                    $navigation_exp .= '<a class="nav-link" href="'.$template[$name]['url'].'">'.$template[$name]['name'].'</a>';
+                }
 
-        $navigation_exp .= '</li>';
-    }
-    $navigation_exp .= '
-    <img class="navbar img" src="/DDWT20-Final-Project/images/Inkedfacebook_profile_image__.jpg"  alt="Logo">
-    </ul>
-    </div>
+                $navigation_exp .= '</li>';
+            }
+            $navigation_exp .= '
+            </ul>
+            <img class="navbar img" src="/DDWT20-Final-Project/images/Inkedfacebook_profile_image__.jpg"  alt="Logo">
+        </div>
     </nav>';
     return $navigation_exp;
 }

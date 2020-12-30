@@ -5,24 +5,31 @@ nav{
     background-color: #b3cccc; /*; */
     font-family: 'Nunito Sans', sans-serif;
     overflow: no-display;
+    padding: 0 !important;
+
 }
 .breadcrumb{
     background-color: #c2d6d6;
 }
 li.nav-item:hover{
     background-color: #d1e0e0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 li.nav-item.active{
     background-color: #e0ebeb;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 a.nav-link{
     color: black;
+    padding: 10px 10px 10px 10px;
 }
 li.breadcrumb-item > a{
     color: black;
 }
 li.breadcrumb-item > a:hover{
-    text-decoration: none;
+    text-decoration: underline;
 }
 .container{
     font-family: 'Nunito Sans', sans-serif;

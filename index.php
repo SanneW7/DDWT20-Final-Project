@@ -555,7 +555,7 @@ elseif (new_route('/DDWT20-Final-Project/inbox/', 'get')) {
     }
 
     /* Page content */
-    $navigation = get_navigation($template, 0);
+    $navigation = get_navigation($template, 5);
     $page_subtitle = 'Een overzicht van al je berichten';
     $page_content = '';
     $message_table = get_message_table($db, get_current());

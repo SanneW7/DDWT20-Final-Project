@@ -1004,14 +1004,15 @@ function get_message_history($pdo, $receiver_id, $sender_id)
     <div>';
     foreach ($messages_array as $key => $value) {
         if ($value['sender_id'] == get_current()) {
-            $class = "container darker";
+            $class = "chat_container darker";
         } else {
-            $class = "container";
+            $class = "chat_container";
         }
         $message_history .= '
     <div class="'.$class.'">
     <p>'.$value['text'].'</p>
     <span class="time-right">'.$value['date_and_time'].'</span>
+    <span>'.get_username($pdo, $value['sender_id']).'</span>
     </div>
     ';
     }
@@ -1020,5 +1021,49 @@ function get_message_history($pdo, $receiver_id, $sender_id)
 }
 
 function get_message_table($pdo, $user_id) {
+    $stmt = $pdo->prepare('SELECT DISTINCT receiver_id, sender_id
+                           FROM messages m1
+                           WHERE (receiver_id = ? OR sender_id = ?) AND NOT EXISTS (
+                                             SELECT receiver_id, sender_id
+                                             FROM messages m2
+                                             WHERE m2.receiver_id = m1.sender_id AND m2.sender_id = m1.receiver_id AND m2.sender_id > m2.receiver_id)
+                                             ORDER BY receiver_id, sender_id');
+    $stmt->execute([$user_id, $user_id]);
+    $messages = $stmt->fetchAll();
+    $messages_array = Array();
 
+    /* Create array with htmlspecialchars */
+    foreach ($messages as $key => $value){
+        foreach ($value as $message_key => $message_input) {
+            $messages_array[$key][$message_key] = htmlspecialchars($message_input);
+        }
+    }
+
+    $inbox = '
+    <table class="table table-hover">
+    <thead
+    <th>
+        <th scop="col">Naam</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>';
+    foreach($messages_array as $key => $value){
+        if (get_current() == $value['sender_id']) {
+            $id = $value['receiver_id'];
+        } else {
+            $id = $value['sender_id'];
+        }
+        $inbox .= '
+        <tr>
+            <th scope="row">'.get_username($pdo, $id).'</th>
+            <td><a href="/DDWT20-Final-Project/send_message/?id='.$id.'" role="button" class="btn btn-primary">Zie berichtengeschiedenis</a></td>
+        </tr>
+        ';
+    }
+    $inbox .= '
+    </tbody>
+    </table>
+    ';
+    return $inbox;
 }

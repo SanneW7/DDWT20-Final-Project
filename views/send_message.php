@@ -40,7 +40,6 @@
             <?php  if(isset($message_history)){echo $message_history;} ?>
             <form action="<?= $form_action ?>" method="POST">
                 <div class="form-group row">
-                    <label>Ontvanger: <?= $receiver ?></label>
                     <textarea class="form-control" rows="5" name="message"></textarea>
                 </div>
                 <input type="hidden" name="receiver" value="<?= $receiver_id ?>">

@@ -479,8 +479,8 @@ elseif (new_route('/DDWT20-Final-Project/account_details/', 'get')) {
 
 }
 
-/* Message GET */
-elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
+/* Send Message GET */
+elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
     if (!check_login()){
         redirect('/DDWT20-Final-Project/login/');
     }
@@ -488,7 +488,7 @@ elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
     $page_title = 'Berichten';
     $breadcrumbs = get_breadcrumbs([
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
-        'Berichten' => na('/DDWT20-Final-Project/', True)
+        'Verstuur bericht' => na('/DDWT20-Final-Project/', True)
     ]);
     if (isset($_SESSION['user_id'])){
         $template = template_check($db, $_SESSION['user_id']);
@@ -506,7 +506,12 @@ elseif (new_route('/DDWT20-Final-Project/message/', 'get')) {
     }
 
     /* Used template */
-    include use_template('message');
+    include use_template('send_message');
+}
+
+/* Send Message POST */
+elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
+    
 }
 
 /* Logout POST */

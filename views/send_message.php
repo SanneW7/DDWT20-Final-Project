@@ -28,11 +28,18 @@
         <!-- Left column -->
         <div class="col-md-8">
             <!-- Error message -->
-            <?php if (isset($error_msg)){echo $error_msg;}?>
+            <?php  if (isset($error_msg)){echo $error_msg;} ?>
 
             <h1><?= $page_title?></h1>
             <h5><?= $page_subtitle?></h5>
             <p><?=  $page_content?></p>
+            <form action="<?= $form_action ?>" method="POST">
+                <div class="form-group row">
+                    <label for="message">Message:</label>
+                    <textarea class="form-control" rows="5" id="message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary"><?= /*$submit_btn */ 'send'?></button>
+                </div>
             <?php  if(isset($left_content)){echo $left_content;} ?>
         </div>
 

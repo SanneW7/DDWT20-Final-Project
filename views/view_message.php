@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- Own CSS -->
-    <!--<link rel="stylesheet" href="/DDWT20/week2/css/main.css">-->
+    <link rel="stylesheet" href="/DDWT20-Final-Project/css/main.css">
 
-    <title><?= $page_title?></title>
+    <title><?= $page_title ?></title>
 </head>
 <body>
 <!-- Menu -->
@@ -28,28 +28,30 @@
         <!-- Left column -->
         <div class="col-md-8">
             <!-- Error message -->
-            <?php  if (isset($error_msg)){echo $error_msg;} ?>
+            <?php if (isset($error_msg)){echo $error_msg;} ?>
 
-            <h1><?= $page_title?></h1>
-            <h5><?= $page_subtitle?></h5>
-            <p><?=  $page_content?></p>
-            <form action="<?= $form_action ?>" method="POST">
-                <div class="form-group row">
-                    <label for="message">Message:</label>
-                    <textarea class="form-control" rows="5" id="message"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary"><?= /*$submit_btn */ 'send'?></button>
-                </div>
-            <?php  if(isset($left_content)){echo $left_content;} ?>
+            <h1><?= $page_title ?></h1>
+            <h5><?= $page_subtitle ?></h5>
+            <p><?= $page_content ?></p>
+            <?php //if ($display_buttons) { if your the owner ?>
+            <?php //} ?>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th scope="row">Afzender</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">Datum</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">Bericht</th>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-
-        <!-- Right column -->
-        <div class="col-md-4">
-
-            <?php /*include $right_column */ ?>
-
-        </div>
-
     </div>
 </div>
 

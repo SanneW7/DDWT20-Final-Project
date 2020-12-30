@@ -33,15 +33,19 @@
             <h1><?= $page_title?></h1>
             <h5><?= $page_subtitle?></h5>
             <p><?=  $page_content?></p>
+            <?php  if(isset($message_history)){echo $message_history;} ?>
             <form action="<?= $form_action ?>" method="POST">
                 <div class="form-group row">
-                    <label for="message">Message:</label>
-                    <textarea class="form-control" rows="5" id="message"></textarea>
+                    <label>Ontvanger: <?= $receiver ?></label>
+                    <textarea class="form-control" rows="5" name="message"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary"><?= /*$submit_btn */ 'send'?></button>
-                </div>
-            <?php  if(isset($left_content)){echo $left_content;} ?>
+                <input type="hidden" name="receiver" value="<?= $receiver_id ?>">
+                <input type="hidden" name="sender" value="<?= $sender_id ?>">
+                <input type="hidden" name="date" value="<?= date('Y-m-d H:i:s') ?>">
+                <button type="submit" class="btn btn-primary"><?= $submit_btn ?></button>
+            </form>
         </div>
+    </div>
 
         <!-- Right column -->
         <div class="col-md-4">

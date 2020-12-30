@@ -580,6 +580,10 @@ function template_check($pdo, $user_id){
         4 => Array(
             'name' => 'Mijn account',
             'url' => '/DDWT20-Final-Project/myaccount/'
+        ),
+        5 => Array(
+            'name' => 'Inbox',
+            'url' => '/DDWT20-Final-Project/inbox/'
         )
     );
     $template_owner = Array(
@@ -598,6 +602,10 @@ function template_check($pdo, $user_id){
         4 => Array(
             'name' => 'Mijn account',
             'url' => '/DDWT20-Final-Project/myaccount/'
+        ),
+        5 => Array(
+            'name' => 'Inbox',
+            'url' => '/DDWT20-Final-Project/inbox/'
         )
     );
 
@@ -932,7 +940,6 @@ function get_opt_in_table($pdo, $room_id) {
     </table>
     ';
     return $table_exp;
-
 }
 
 function get_number_opt_in($pdo, $room_id) {
@@ -940,5 +947,78 @@ function get_number_opt_in($pdo, $room_id) {
     $stmt->execute([$room_id]);
     $number_opt_ins = $stmt->rowCount();
     return $number_opt_ins;
+}
+
+function send_message($pdo, $message_info) {
+    if (
+        empty($message_info['message']) or
+        empty($message_info['receiver']) or
+        empty($message_info['sender']) or
+        empty($message_info['date'])
+    ) {
+        return [
+            'type' => 'danger',
+            'message' => 'Vul alle velden in om door te gaan.'
+        ];
+    }
+
+    /* Add room to database */
+    $stmt = $pdo->prepare("INSERT INTO messages (text, date_and_time, receiver_id, sender_id) VALUES (?, ?, ?, ?)");
+    $stmt->execute([
+        $message_info['message'],
+        $message_info['date'],
+        $message_info['receiver'],
+        $message_info['sender'],
+    ]);
+    $pdo->lastInsertId();
+    $inserted = $stmt->rowCount();
+    if ($inserted ==  1) {
+        return [
+            'type' => 'success',
+            'message' => sprintf("Het bericht is verstuurd!")
+        ];
+    }
+    else {
+        return [
+            'type' => 'danger',
+            'message' => 'Er is iets fout gegaan. Probeer het opnieuw!'
+        ];
+    }
+}
+
+function get_message_history($pdo, $receiver_id, $sender_id)
+{
+    $stmt = $pdo->prepare('SELECT * FROM messages WHERE (receiver_id = ? AND sender_id = ?) OR (receiver_id = ? AND sender_id = ?)');
+    $stmt->execute([$receiver_id, $sender_id, $sender_id, $receiver_id]);
+    $messages = $stmt->fetchAll();
+    $messages_array = Array();
+
+    /* Create array with htmlspecialchars */
+    foreach ($messages as $key => $value){
+        foreach ($value as $message_key => $message_input) {
+            $messages_array[$key][$message_key] = htmlspecialchars($message_input);
+        }
+    }
+
+    $message_history = '
+    <div>';
+    foreach ($messages_array as $key => $value) {
+        if ($value['sender_id'] == get_current()) {
+            $class = "container darker";
+        } else {
+            $class = "container";
+        }
+        $message_history .= '
+    <div class="'.$class.'">
+    <p>'.$value['text'].'</p>
+    <span class="time-right">'.$value['date_and_time'].'</span>
+    </div>
+    ';
+    }
+
+    return $message_history.'</div>';
+}
+
+function get_message_table($pdo, $user_id) {
 
 }

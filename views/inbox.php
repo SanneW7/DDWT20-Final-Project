@@ -33,7 +33,6 @@
             <h1><?= $page_title?></h1>
             <h5><?= $page_subtitle?></h5>
             <p><?=  $page_content?></p>
-            <?php if(isset($left_content)){echo $left_content;} ?>
         </div>
 
         <!-- Right column -->

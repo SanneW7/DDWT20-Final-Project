@@ -59,6 +59,9 @@
         </tr>
         </tbody>
     </table>
+    <div>
+        <?php if ($user_id != $current_user) { ?> <a href="/DDWT20-Final-Project/send_message/?id=<?= $user_id ?>" type="submit" class="btn btn-primary"><?= $submit_btn ?> </a> <?php } ?>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

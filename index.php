@@ -469,9 +469,13 @@ elseif (new_route('/DDWT20-Final-Project/account_details/', 'get')) {
     } else{
         $template = $template_login;
     }
+
+    /* Page content */
     $navigation = get_navigation($template, 0);
+    $current_user = get_current();
     $user_id = $_GET['id'];
     $user_info = get_user_info($db, $user_id);
+    $submit_btn = 'Stuur een bericht';
 
     /* Used template */
     include use_template('account_details');
@@ -500,6 +504,16 @@ elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
     /* Specific page information */
     $page_subtitle = '';
     $page_content = '';
+    $submit_btn = 'Send';
+    $receiver_id = $_GET['id'];
+    $receiver = get_username($db, $receiver_id);
+    $sender_id = get_current();
+    $form_action = '/DDWT20-Final-Project/send_message/';
+
+    p_print($sender_id);
+    p_print(get_current());
+
+    $message_history = get_message_history($db, $receiver_id, $sender_id);
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);
@@ -510,8 +524,45 @@ elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
 }
 
 /* Send Message POST */
-elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
-    
+elseif (new_route('/DDWT20-Final-Project/send_message/', 'post')) {
+    $feedback = send_message($db, $_POST);
+    $receiver_id = $_POST['receiver'];
+
+    if ($feedback['type'] == 'danger') {
+        redirect(sprintf('/DDWT20-Final-Project/send_message/?id=%s&error_msg=%s',
+            json_encode(intval($receiver_id)), json_encode($feedback)));
+    } else {
+        redirect(sprintf('/DDWT20-Final-Project/send_message/?id=%s&error_msg=%s',
+            json_encode(intval($receiver_id)), json_encode($feedback)));
+    }
+}
+
+/* Inbox GET */
+elseif (new_route('/DDWT20-Final-Project/inbox/', 'get')) {
+    if (!check_login()){
+        redirect('/DDWT20-Final-Project/login/');
+    }
+    /* General page information */
+    $page_title = 'Inbox';
+    $breadcrumbs = get_breadcrumbs([
+        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Inbox' => na('/DDWT20-Final-Project/', True)
+    ]);
+    if (isset($_SESSION['user_id'])){
+        $template = template_check($db, $_SESSION['user_id']);
+    } else{
+        $template = $template_login;
+    }
+
+    /* Page content */
+    $navigation = get_navigation($template, 0);
+    $page_subtitle = 'Een overzicht van al je berichten';
+    $page_content = '';
+    $message_table = get_message_table($db, get_current());
+
+    /* Used template */
+    include use_template('inbox');
+
 }
 
 /* Logout POST */

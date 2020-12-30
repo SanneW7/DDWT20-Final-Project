@@ -1,0 +1,32 @@
+body {
+    background-color: #e0ebeb; /* #f0f5f5  #f44336 rood*/
+
+}
+nav{
+    background-color: #b3cccc; /*; */
+    font-family: 'Nunito Sans', sans-serif;
+    overflow: no-display;
+}
+.breadcrumb{
+    background-color: #c2d6d6;
+}
+li.nav-item:hover{
+    background-color: #d1e0e0;
+}
+li.nav-item.active{
+    background-color: #e0ebeb;
+}
+a.nav-link{
+    color: black;
+}
+li.breadcrumb-item > a{
+    color: black;
+}
+li.breadcrumb-item > a:hover{
+    text-decoration: none;
+}
+.container{
+    font-family: 'Nunito Sans', sans-serif;
+}
+.navbar-brand{
+}

@@ -98,7 +98,7 @@ function get_breadcrumbs($breadcrumbs) {
 
 function get_navigation($template, $active_id){
     $navigation_exp = session_status().'
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand">Kamernet2</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>

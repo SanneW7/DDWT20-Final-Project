@@ -11,6 +11,10 @@
     <!-- Own CSS -->
     <link rel="stylesheet" href="/DDWT20-Final-Project/css/main.css">
 
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+
     <title><?= $page_title?></title>
 </head>
 <body>

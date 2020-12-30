@@ -1,6 +1,5 @@
 body {
     background-color: #e0ebeb; /* #f0f5f5  #f44336 rood*/
-
 }
 nav{
     background-color: #b3cccc; /*; */
@@ -28,5 +27,16 @@ li.breadcrumb-item > a:hover{
 .container{
     font-family: 'Nunito Sans', sans-serif;
 }
-.navbar-brand{
+/* Chat containers */
+.chat_container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+/* Darker chat container */
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
 }

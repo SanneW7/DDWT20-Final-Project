@@ -117,6 +117,7 @@ function get_navigation($template, $active_id){
         $navigation_exp .= '</li>';
     }
     $navigation_exp .= '
+    <img class="navbar img" src="/DDWT20-Final-Project/images/Inkedfacebook_profile_image__.jpg"  alt="Logo">
     </ul>
     </div>
     </nav>';

@@ -1,5 +1,6 @@
 body {
-    background-color: #e0ebeb; /* #f0f5f5  #f44336 rood*/
+    background-color: #e0ebeb; /* #f0f5f5  #f44336 rood
+    background-image: url("/DDWT20-Final-Project/images/facebook_profile_image.png");*/
 }
 nav{
     background-color: #b3cccc; /*; */
@@ -11,19 +12,27 @@ nav{
 .breadcrumb{
     background-color: #c2d6d6;
 }
+li.nav-item{
+    padding-left: 10px;
+    padding-right: 10px;
+}
 li.nav-item:hover{
     background-color: #d1e0e0;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 li.nav-item.active{
     background-color: #e0ebeb;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 a.nav-link{
     color: black;
-    padding: 10px 10px 10px 10px;
+    padding: 20px 20px 20px 20px;
 }
 li.breadcrumb-item > a{
     color: black;
@@ -33,6 +42,7 @@ li.breadcrumb-item > a:hover{
 }
 .container{
     font-family: 'Nunito Sans', sans-serif;
+    margin-bottom: 100px;
 }
 /* Chat containers */
 .chat_container {
@@ -46,4 +56,36 @@ li.breadcrumb-item > a:hover{
 .darker {
     border-color: #ccc;
     background-color: #ddd;
+}
+footer{
+    background-color: #b3cccc;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: fixed;
+
+}
+img{
+    width: 150px;
+    height: auto;
+    position: fixed;
+    right: 10%;
+    bottom: 20%;
+
+}
+.navbar-brand{
+    margin-left: 40px;
+}
+.navbar img{
+    float: right;
+    width: 8%;
+    height: auto;
+    margin-right: -10%;
+    border: 5px solid #8fcccc;
+    padding: 0;
 }

@@ -203,7 +203,7 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
     $navigation = get_navigation($template, 0);
 
     /* Specific page information */
-    $page_subtitle = sprintf('% aanpassen', 'KAMER');
+    $page_subtitle = 'Kamer aanpassen';
     $page_content = 'Pas de velden aan';
     $form_action = '/DDWT20-Final-Project/edit/';
     $submit_btn = "Kamer aanpassen";
@@ -253,7 +253,7 @@ elseif(new_route('/DDWT20-Final-Project/edit_account/', 'get')){
     $navigation = get_navigation($template, 0);
 
     /* Specific page information */
-    $page_subtitle = sprintf('% aanpassen', 'ACCOUNT');
+    $page_subtitle = 'Account aanpassen';
     $page_content = 'Pas de velden aan';
     $form_action = '/DDWT20-Final-Project/edit_account/';
     $button_name = "Account aanpassen";
@@ -476,6 +476,8 @@ elseif (new_route('/DDWT20-Final-Project/account_details/', 'get')) {
     $user_id = $_GET['id'];
     $user_info = get_user_info($db, $user_id);
     $submit_btn = 'Stuur een bericht';
+    $page_title = 'Account details';
+    $page_content = 'Hier zie je een overzicht van de account gegevens';
 
     /* Used template */
     include use_template('account_details');
@@ -504,7 +506,7 @@ elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
     /* Specific page information */
     $page_subtitle = '';
     $page_content = '';
-    $submit_btn = 'Send';
+    $submit_btn = 'Versturen';
     $receiver_id = $_GET['id'];
     $receiver = get_username($db, $receiver_id);
     $sender_id = get_current();

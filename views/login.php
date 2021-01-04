@@ -71,6 +71,6 @@
 </body>
     <footer>
         Hoi dit is de footer
-        <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">
+        <!-- <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo"> -->
     </footer>
 </html>

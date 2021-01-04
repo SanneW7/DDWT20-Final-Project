@@ -28,7 +28,6 @@
     <?= $breadcrumbs ?>
 
     <div class="row">
-
         <div class="col-md-12">
             <!-- Error message -->
             <?php if (isset($error_msg)){echo $error_msg;} ?>
@@ -37,13 +36,8 @@
             <h5><?= $page_subtitle ?></h5>
             <p><?= $page_content ?></p>
         </div>
-
     </div>
-
-    <div class="pd-15">&nbsp;</div>
-
     <div class="row">
-
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
@@ -119,6 +113,6 @@
 </body>
 <footer>
     Hoi dit is de footer
-    <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">
+    <!-- <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo"> -->
 </footer>
 </html>

@@ -26,7 +26,8 @@
     <!-- Breadcrumbs -->
     <div class="pd-15">&nbsp</div>
     <?= $breadcrumbs ?>
-
+    <h1><?= $page_title ?></h1>
+    <p><?= $page_content ?></p>
     <table class="table">
         <tbody>
         <tr>
@@ -75,6 +76,6 @@
 </body>
 <footer>
     Hoi dit is de footer
-    <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">
+    <!--<img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">-->
 </footer>
 </html>

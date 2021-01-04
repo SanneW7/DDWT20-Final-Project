@@ -77,12 +77,12 @@
             <?php if ($display_buttons_owner) { ?>
             <div class="row">
                 <div class="col-sm-2">
-                    <a href="/DDWT20-Final-Project/edit/?id=<?= $room_info['id'] ?>" role="button" class="btn btn-warning">Edit</a>
+                    <a href="/DDWT20-Final-Project/edit/?id=<?= $room_info['id'] ?>" role="button" class="btn btn-warning">Aanpassen</a>
                 </div>
                 <div class="col-sm-2">
                     <form action="/DDWT20-Final-Project/delete/" method="POST">
                         <input type="hidden" value="<?= $room_info['id'] ?>" name="id">
-                        <button type="submit" class="btn btn-danger">Remove</button>
+                        <button type="submit" class="btn btn-danger">Verwijderen</button>
                     </form>
                 </div>
             </div>
@@ -129,6 +129,6 @@
 </body>
 <footer>
     Hoi dit is de footer
-    <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">
+    <!-- <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">-->
 </footer>
 </html>

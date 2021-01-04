@@ -40,55 +40,91 @@
             <div class="pd-15">&nbsp;</div>
 
             <form action=<?= $form_action ?> method="POST">
-                <div class="form-group">
-                    <label for="inputUsername">Gebruikersnaam</label>
-                    <input type="text" class="form-control" id="inputUsername" placeholder="j.jansen" name="username" value="<?php if (isset($user_info)){echo $user_info['username'];} ?>">
-                </div>
-                <?php if (!isset($user_info)){ ?>
-                <div class="form-group">
-                    <label for="inputPassword">Wachtwoord</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="******" name="password" value="">
-                </div>
-                <?php }  ?>
-                <div class="form-group">
-                    <label for="inputFullname">Volledige naam</label>
-                    <input type="text" class="form-control" id="inputFullname" placeholder="Jan Jansen" name="full_name" value="<?php if (isset($user_info)){echo $user_info['full_name'];} ?>">
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="j.jansen@email.com" name="email" value="<?php if (isset($user_info)){echo $user_info['email'];} ?>">
-                </div>
-                <div class="form-group">
-                    <label for="inputPhonenumber">Telefoonnummer</label>
-                    <input type="tel" class="form-control" id="inputPhonenumber" placeholder="0612345678" name="phonenumber" value="<?php if (isset($user_info)){echo $user_info['phonenumber'];} ?>">
-                </div>
-                <div class="form-group">
-                    <label for="inputBirthdate">Geboortedatum</label>
-                    <input type="text" class="form-control" id="inputBirthdate" placeholder="YYYY-MM-DD" name="birth_date" value="<?php if (isset($user_info)){echo $user_info['birth_date'];} ?>">
-                </div>
-                <div class="form-group">
-                    <label for="inputLanguage">Taal</label>
-                    <input type="text" class="form-control" id="inputLanguage" placeholder="Nederlands" name="language" value="<?php if (isset($user_info)){echo $user_info['language'];} ?>">
-                </div>
-                <div class="form-group">
-                    <label for="inputStudyProfession">Studie of Beroep</label>
-                    <input type="text" class="form-control" id="inputStudyProfession" placeholder="Informatiekunde" name="occupation" value="<?php if (isset($user_info)){echo $user_info['occupation'];} ?>">
-                </div>
-                <div class="form-group">
-                    <label for="inputBiography">Biografie</label>
-                    <textarea type="text" class="form-control" id="inputBiography" placeholder="Bio" name="biography"><?php if (isset($user_info)){echo $user_info['biography'];} ?></textarea>
-                </div>
-                <?php if (!isset($user_info)){ ?>
-                <div class="form-group">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" id="tenant" value="0" checked="checked">
-                        <label class="form-check-label" for="tenant">Ik wil een kamer huren</label>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="inputUsername">Gebruikersnaam</label>
+                            <input type="text" class="form-control col-sm-8" id="inputUsername" placeholder="j.jansen" name="username"  required value="<?php if (isset($user_info)){echo $user_info['username'];} ?>">
+                        </div>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" id="owner" value="1">
-                        <label class="form-check-label" for="owner">Ik wil een kamer verhuren</label>
+                    <div class="col">
+                        <?php if (!isset($user_info)){ ?>
+                            <div class="form-group">
+                                <label for="inputPassword">Wachtwoord</label>
+                                <input type="password" class="form-control col-sm-8" id="inputPassword" placeholder="******" name="password"  required value="">
+                            </div>
+                        <?php }  ?>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="inputFullname">Volledige naam</label>
+                            <input type="text" class="form-control col-sm-8" id="inputFullname" placeholder="Jan Jansen" name="full_name" required value="<?php if (isset($user_info)){echo $user_info['full_name'];} ?>">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" class="form-control col-sm-8" id="inputEmail" placeholder="j.jansen@email.com" name="email" required value="<?php if (isset($user_info)){echo $user_info['email'];} ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="inputPhonenumber">Telefoonnummer</label>
+                            <input type="tel" class="form-control col-sm-8" id="inputPhonenumber" placeholder="0612345678" name="phonenumber" required  pattern="^(06)[0-9]{8}$" value="<?php if (isset($user_info)){echo $user_info['phonenumber'];} ?>">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="inputBirthdate">Geboortedatum</label>
+                            <input type="date" class="form-control col-sm-8" id="inputBirthdate" placeholder="DD-MM-YYYY" name="birth_date" required value="<?php if (isset($user_info)){echo $user_info['birth_date'];} ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="inputLanguage">Taal</label>
+                            <input type="text" class="form-control col-sm-8" id="inputLanguage" placeholder="Nederlands" name="language" required value="<?php if (isset($user_info)){echo $user_info['language'];} ?>">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="inputStudyProfession">Studie of Beroep</label>
+                            <input type="text" class="form-control col-sm-8" id="inputStudyProfession" placeholder="Informatiekunde" name="occupation" required value="<?php if (isset($user_info)){echo $user_info['occupation'];} ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="inputBiography">Biografie</label>
+                            <textarea type="text" class="form-control col-lg-10" id="inputBiography" placeholder="Bio" name="biography" required><?php if (isset($user_info)){echo $user_info['biography'];} ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <?php if (!isset($user_info)){ ?>
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="tenant" value="0" checked="checked">
+                                <label class="form-check-label" for="tenant">Ik wil een kamer huren</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="owner" value="1">
+                                <label class="form-check-label" for="owner">Ik wil een kamer verhuren</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <?php } ?>
                 <?php if(isset($user_id)){ ?><input type="hidden" name="id" value="<?php echo $user_id ?>"><?php } ?>
                 <div class="row">
@@ -109,9 +145,6 @@
         </div>
                 <?php } ?>
 
-
-
-
         </div>
 
     </div>
@@ -126,6 +159,6 @@
 </body>
 <footer>
     Hoi dit is de footer
-    <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">
+    <!-- <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">-->
 </footer>
 </html>

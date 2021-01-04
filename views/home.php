@@ -58,6 +58,6 @@
     </body>
 <footer>
     Hoi dit is de footer
-    <img src="/DDWT20-Final-Project/images/Inkedfacebook_profile_image__.jpg" class="w3-round" alt="Logo">
+    <!-- <img src="/DDWT20-Final-Project/images/Inkedfacebook_profile_image__.jpg" class="w3-round" alt="Logo"> -->
 </footer>
 </html>

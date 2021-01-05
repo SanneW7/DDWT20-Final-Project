@@ -326,7 +326,7 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
     } else{
         $template = $template_login;
     }
-    $navigation = get_navigation($template, 4);
+    $navigation = get_navigation($template, 5);
 
     /* Specific page information */
     $page_subtitle = 'Welkom ';
@@ -404,7 +404,7 @@ elseif (new_route('/DDWT20-Final-Project/login/', 'get')) {
     } else{
         $template = $template_login;
     }
-    $navigation = get_navigation($template, 5);
+    $navigation = get_navigation($template, 4);
 
     /* Specific page information */
     $page_subtitle = 'Hier kun je inloggen';
@@ -554,7 +554,7 @@ elseif (new_route('/DDWT20-Final-Project/inbox/', 'get')) {
     }
 
     /* Page content */
-    $navigation = get_navigation($template, 5);
+    $navigation = get_navigation($template, 4);
     $page_subtitle = 'Een overzicht van al je berichten';
     $page_content = '';
     $message_table = get_message_table($db, get_current());

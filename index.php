@@ -193,7 +193,7 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
     $page_title = 'Kamer informatie aanpassen';
     $breadcrumbs = get_breadcrumbs([
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
-        sprintf('% aanpassen', 'KAMER') => na('/DDWT20-Final-Project/edit/', True)
+        'Aanpassen' => na('/DDWT20-Final-Project/edit/', True)
     ]);
     if (isset($_SESSION['user_id'])){
         $template = template_check($db, $_SESSION['user_id']);

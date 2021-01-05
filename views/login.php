@@ -42,11 +42,11 @@
             <form action="/DDWT20-Final-Project/login/" method="POST">
                 <div class="form-group">
                     <label for="inputUsername">Gebruikernaam</label>
-                    <input type="text" class="form-control" id="inputUsername" placeholder="Gebruikersnaam" name="username" required>
+                    <input type="text" class="form-control col-sm-4" id="inputUsername" placeholder="Gebruikersnaam" name="username" required>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword">Wachtwoord</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="*****" name="password" required>
+                    <input type="password" class="form-control col-sm-4" id="inputPassword" placeholder="*****" name="password" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
                 <div class="form-group">

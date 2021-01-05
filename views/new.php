@@ -40,7 +40,7 @@
             <form action="<?= $form_action ?>" method="POST">
                 <div class="form-group">
                     <label for="inputPrice" class="col-form-label">Prijs in &euro;</label>
-                    <input type="number" class="form-control col-sm-4" id="inputPrice" name="price" placeholder="200" required value="<?php if (isset($room_info)){echo $room_info['price'];} ?>">
+                    <input type="number" min="0" class="form-control col-sm-4" id="inputPrice" name="price" placeholder="200" required value="<?php if (isset($room_info)){echo $room_info['price'];} ?>">
                 </div>
 
                 <div class="form-group">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="form-group">
                     <label for="inputSize" class="col-form-label">Oppervlakte in m&sup2;</label>
-                    <input type="number" class="form-control col-sm-4" id="inputSize" name="size" placeholder="15" required value="<?php if (isset($room_info)){echo $room_info['size'];} ?>">
+                    <input type="number" min="0" class="form-control col-sm-4" id="inputSize" name="size" placeholder="15" required value="<?php if (isset($room_info)){echo $room_info['size'];} ?>">
                 </div>
                 <div class="form-row">
                     <div class="col">
@@ -65,7 +65,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="inputHouseNumber" class="col-form-label">Huisnummer</label>
-                            <input type="text" class="form-control col-sm-4" id="inputHouseNumber" name="housenumber" placeholder="1" required value="<?php if (isset($room_info)){echo $room_info['house_number'];} ?>">
+                            <input type="number" min="0" maxlength="5" class="form-control col-sm-4" id="inputHouseNumber" name="housenumber" placeholder="1" required value="<?php if (isset($room_info)){echo $room_info['house_number'];} ?>">
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="inputZipcode" class="col-form-label">Postcode</label>
-                            <input type="text" maxlength="6" class="col-sm-4 form-control" id="inputZipcode" placeholder="1234AB" required name="zipcode" pattern="[1-9]{1}[0-9]{3}[A-Za-z]{2}"value="<?php if (isset($room_info)){echo $room_info['zip_code'];} ?>">
+                            <input type="text" class="col-sm-4 form-control" id="inputZipcode" placeholder="1234AB" required name="zipcode" pattern="[1-9]{1}[0-9]{3}[A-Za-z]{2}" value="<?php if (isset($room_info)){echo $room_info['zip_code'];} ?>">
                         </div>
                     </div>
                 </div>

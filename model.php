@@ -162,19 +162,37 @@ function add_room($pdo, $room_info, $user_id){
             'type' => 'danger',
             'message' => 'Vul een getal in in het veld Oppervlakte.'
         ];
-    } elseif (!is_numeric($room_info['housenumber'])) {
+    }
+
+    /* Special character check */
+    if (!preg_match("/^[a-zA-Z-.' ]*$/", $room_info['street'])) {
         return [
             'type' => 'danger',
-            'message' => 'Vul een getal in in het veld Huisnummer.'
+            'message' => 'Het veld Straat gebruikt karakters die niet zijn toegestaan'
+        ];
+    } elseif (!preg_match("/^[a-zA-Z-' ]*$/", $room_info['city'])){
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Stad gebruikt karakters die niet zijn toegestaan'
+        ];
+    }
+
+    /* House number check */
+    if (!preg_match("/^[0-9]{1,5}$/", $room_info['housenumber'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Huisnummer is niet in het gewenste formaat'
         ];
     }
 
     /* Zip code check */
-    /*if (!zipcode_check($room_info['zipcode'])) {
+    if (!preg_match("/^[1-9]{1}[0-9]{3}[A-Za-z]{2}$/", $room_info['zipcode'])) {
         return [
             'type' => 'danger',
-            'message' => 'Vul een geldige postcode in.'
+            'message' => 'Het veld Postcode is niet in het juiste formaat'
         ];
+    } else {
+        $zipcode = strtoupper($room_info['zipcode']);
     }
 
     /* Add room to database */
@@ -186,7 +204,7 @@ function add_room($pdo, $room_info, $user_id){
         $room_info['size'],
         $room_info['street'],
         $room_info['city'],
-        $room_info['zipcode'],
+        $zipcode,
         $room_info['housenumber']
     ]);
     $pdo->lastInsertId();
@@ -318,22 +336,39 @@ function update_room($pdo, $room_info){
             'type' => 'danger',
             'message' => 'Vul een getal in in het veld Oppervlakte.'
         ];
-    } elseif (!is_numeric($room_info['housenumber'])) {
+    }
+
+    /* Special character check */
+    if (!preg_match("/^[a-zA-Z-.' ]*$/", $room_info['street'])) {
         return [
             'type' => 'danger',
-            'message' => 'Vul een getal in in het veld Huisnummer.'
+            'message' => 'Het veld Straat gebruikt karakters die niet zijn toegestaan'
+        ];
+    } elseif (!preg_match("/^[a-zA-Z-' ]*$/", $room_info['city'])){
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Stad gebruikt karakters die niet zijn toegestaan'
         ];
     }
 
-    /* Get current room name */
-    $stmt = $pdo->prepare('SELECT * FROM rooms WHERE id = ?');
-    $stmt->execute([$room_info['id']]);
-    $room = $stmt->fetch();
+    /* House number check */
+    if (!preg_match("/^[0-9]{1,5}$/", $room_info['housenumber'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Huisnummer is niet in het gewenste formaat'
+        ];
+    }
 
-    /*$display_buttons = $serie_info['user'] == $_SESSION['user_id'];
-    if ($display_buttons) {
-        /* Update Serie
-        $user_id = $_SESSION['user_id']; */
+    /* Zip code check */
+    if (!preg_match("/^[1-9]{1}[0-9]{3}[A-Za-z]{2}$/", $room_info['zipcode'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Postcode is niet in het juiste formaat'
+        ];
+    } else {
+        $zipcode = strtoupper($room_info['zipcode']);
+    }
+
         $stmt = $pdo->prepare("UPDATE rooms SET price = ?, type = ?, size = ?, streetname = ?, city = ?, zip_code = ?, house_number = ? WHERE id = ?");
         $stmt->execute([
             $room_info['price'],
@@ -341,12 +376,12 @@ function update_room($pdo, $room_info){
             $room_info['size'],
             $room_info['street'],
             $room_info['city'],
-            $room_info['zipcode'],
+            $zipcode,
             $room_info['housenumber'],
             $room_info['id']
         ]);
         $updated = $stmt->rowCount();
-    /*}*/
+
     if ($updated ==  1) {
         return [
             'type' => 'success',
@@ -413,7 +448,52 @@ function register_user($pdo, $form_data){
     ) {
         return [
             'type' => 'danger',
-            'message' => 'Niet alle velden zijn ingevuld.'.$form_data['occupation']
+            'message' => 'Niet alle velden zijn ingevuld.'
+        ];
+    }
+
+    /* Special character check */
+    if (!ctype_alpha($form_data['occupation'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Studie of Beroep kan alleen letters bevatten'
+        ];
+    } elseif (!ctype_alpha($form_data['language'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Taal kan alleen letters bevatten'
+        ];
+    }
+
+    /* Date check */
+    if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$form_data['birth_date'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Geboortedatum is niet in het gewenste formaat'
+        ];
+    }
+
+    /* Email check */
+    if (!filter_var($form_data['email'], FILTER_VALIDATE_EMAIL)) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Email is niet in het gewenste formaat.'
+        ];
+    }
+
+    /* Phone number check */
+    if (!preg_match("/^(06)[0-9]{8}$/", $form_data['phonenumber'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Telefoonnummer is niet in het gewenste formaat.'
+        ];
+    }
+
+    /* Full name check */
+    if (!preg_match("/^[a-zA-Z-' ]*$/", $form_data['full_name'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Volledige Naam is niet in het gewenste formaat (gebruik alleen letters, koppeltekens, spaties en apostrof\'s)'
         ];
     }
 

@@ -75,7 +75,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="inputPhonenumber">Telefoonnummer</label>
-                            <input type="tel" class="form-control col-sm-8" id="inputPhonenumber" placeholder="0612345678" name="phonenumber" required  pattern="^(06)[0-9]{8}$" value="<?php if (isset($user_info)){echo $user_info['phonenumber'];} ?>">
+                            <input type="tel" class="form-control col-sm-8" id="inputPhonenumber" placeholder="0612345678" name="phonenumber" required pattern="^(06)[0-9]{8}$" value="<?php if (isset($user_info)){echo $user_info['phonenumber'];} ?>">
                         </div>
                     </div>
                     <div class="col">

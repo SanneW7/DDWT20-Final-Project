@@ -83,7 +83,7 @@
                         </tbody>
                     </table>
                     <a href="/DDWT20-Final-Project/edit_account/" class="btn btn-warning">Bewerk je gegevens</a>
-                    <a href="/DDWT20-Final-Project/logout/" class="btn btn-primary">Logout</a>
+                    <a href="/DDWT20-Final-Project/logout/" class="btn btn-primary">Uitloggen</a>
                 </div>
             </div>
         </div>

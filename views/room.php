@@ -43,7 +43,7 @@
                 <tbody>
                 <tr>
                     <th scope="row">Prijs</th>
-                    <td><?= $room_info['price'] ?></td>
+                    <td>&euro;<?= $room_info['price'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Type</th>
@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <th scope="row">Oppervlakte</th>
-                    <td><?= $room_info['size'] ?></td>
+                    <td><?= $room_info['size'] ?>m&sup2;</td>
                 </tr>
                 <tr>
                     <th scope="row">Verhuurder</th>

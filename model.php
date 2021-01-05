@@ -249,8 +249,8 @@ function get_room_table($pdo, $rooms){
         <tr>
             <th scope="row">'.$value['city'].'</th>
             <th scope="row">'.$value['streetname'].'</th>
-            <th scope="row">'.$value['price'].'</th>
-            <th scope="row">'.$value['size'].'</th>
+            <th scope="row">&euro;'.$value['price'].'</th>
+            <th scope="row">'.$value['size'].'m&sup2;</th>
             <td><a href="/DDWT20-Final-Project/room/?id='.$value['id'].'" role="button" class="btn btn-primary">Meer informatie</a></td>
         </tr>
         ';
@@ -579,12 +579,12 @@ function template_check($pdo, $user_id){
             'url' => '/DDWT20-Final-Project/rooms/'
         ),
         4 => Array(
-            'name' => 'Mijn account',
-            'url' => '/DDWT20-Final-Project/myaccount/'
-        ),
-        5 => Array(
             'name' => 'Inbox',
             'url' => '/DDWT20-Final-Project/inbox/'
+        ),
+        5 => Array(
+            'name' => 'Mijn account',
+            'url' => '/DDWT20-Final-Project/myaccount/'
         )
     );
     $template_owner = Array(
@@ -601,12 +601,12 @@ function template_check($pdo, $user_id){
             'url' => '/DDWT20-Final-Project/add_room/'
         ),
         4 => Array(
-            'name' => 'Mijn account',
-            'url' => '/DDWT20-Final-Project/myaccount/'
-        ),
-        5 => Array(
             'name' => 'Inbox',
             'url' => '/DDWT20-Final-Project/inbox/'
+        ),
+        5 => Array(
+            'name' => 'Mijn account',
+            'url' => '/DDWT20-Final-Project/myaccount/'
         )
     );
 

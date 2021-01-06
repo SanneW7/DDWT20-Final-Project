@@ -37,15 +37,16 @@
             <h1><?= $page_title?></h1>
             <h5><?= $page_subtitle?></h5>
             <p><?=  $page_content?></p>
-            <?php  if(isset($message_history)){echo $message_history;} ?>
+            <?php  if(!empty($message_history)){echo'<div class="message_box"><div>'.$message_history.'</div></div>';} ?>
+
             <form action="<?= $form_action ?>" method="POST">
-                <div class="form-group row">
-                    <textarea class="form-control" rows="5" name="message"></textarea>
-                </div>
+                <textarea maxlength="255" required class="form-control" rows="5" name="message" placeholder="Stuur een bericht naar <?= $receiver_name ?>"></textarea>
+                <br />
                 <input type="hidden" name="receiver" value="<?= $receiver_id ?>">
                 <input type="hidden" name="sender" value="<?= $sender_id ?>">
                 <input type="hidden" name="date" value="<?= date('Y-m-d H:i:s') ?>">
                 <button type="submit" class="btn btn-primary"><?= $submit_btn ?></button>
+                <a class="btn btn-secondary" href="">Vernieuwen</a>
             </form>
         </div>
     </div>
@@ -67,8 +68,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
-<footer>
-    Hoi dit is de footer
-    <!-- <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo"> -->
-</footer>
 </html>

@@ -118,7 +118,6 @@ function get_navigation($template, $active_id){
             }
             $navigation_exp .= '
             </ul>
-            <img class="navbar img" src="/DDWT20-Final-Project/images/Inkedfacebook_profile_image__.jpg"  alt="Logo">
         </div>
     </nav>';
     return $navigation_exp;
@@ -756,33 +755,52 @@ function update_user($pdo, $user_info){
         ];
     }
 
-    /* Numeric check   Jesmer: hier komen we later op terug kusjes ruth
-    if (!is_numeric($room_info['price'])) {
+    /* Special character check */
+    if (!ctype_alpha($user_info['occupation'])) {
         return [
             'type' => 'danger',
-            'message' => 'Vul een getal in in het veld Prijs.'
+            'message' => 'Het veld Studie of Beroep kan alleen letters bevatten'
         ];
-    } elseif (!is_numeric($room_info['size'])) {
+    } elseif (!ctype_alpha($user_info['language'])) {
         return [
             'type' => 'danger',
-            'message' => 'Vul een getal in in het veld Oppervlakte.'
+            'message' => 'Het veld Taal kan alleen letters bevatten'
         ];
-    } elseif (!is_numeric($room_info['housenumber'])) {
-        return [
-            'type' => 'danger',
-            'message' => 'Vul een getal in in het veld Huisnummer.'
-        ];
-    }*/
+    }
 
-    /* Get current user name */
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
-    $stmt->execute([$user_info['id']]);
-    $user = $stmt->fetch();
+    /* Date check */
+    if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$user_info['birth_date'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Geboortedatum is niet in het gewenste formaat'
+        ];
+    }
 
-    /*$display_buttons = $serie_info['user'] == $_SESSION['user_id'];
-    if ($display_buttons) {
-        /* Update Serie
-        $user_id = $_SESSION['user_id']; */
+    /* Email check */
+    if (!filter_var($user_info['email'], FILTER_VALIDATE_EMAIL)) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Email is niet in het gewenste formaat.'
+        ];
+    }
+
+    /* Phone number check */
+    if (!preg_match("/^(06)[0-9]{8}$/", $user_info['phonenumber'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Telefoonnummer is niet in het gewenste formaat.'
+        ];
+    }
+
+    /* Full name check */
+    if (!preg_match("/^[a-zA-Z-' ]*$/", $user_info['full_name'])) {
+        return [
+            'type' => 'danger',
+            'message' => 'Het veld Volledige Naam is niet in het gewenste formaat (gebruik alleen letters, koppeltekens, spaties en apostrof\'s)'
+        ];
+    }
+
+
     $stmt = $pdo->prepare("UPDATE users SET username = ?, full_name = ?, email = ?, phonenumber = ?, birth_date = ?, language = ?, occupation = ?, biography = ? WHERE id = ?");
     $stmt->execute([
         $user_info['username'],
@@ -1043,7 +1061,14 @@ function send_message($pdo, $message_info) {
         ];
     }
 
-    /* Add room to database */
+    if (strlen($message_info['message']) > 255) {
+        return [
+            'type' => 'danger',
+            'message' => 'Er ging iets fout, je bericht is te lang!'
+        ];
+    }
+
+    /* Add message to database */
     $stmt = $pdo->prepare("INSERT INTO messages (text, date_and_time, receiver_id, sender_id) VALUES (?, ?, ?, ?)");
     $stmt->execute([
         $message_info['message'],
@@ -1081,24 +1106,24 @@ function get_message_history($pdo, $receiver_id, $sender_id)
         }
     }
 
-    $message_history = '
-    <div>';
+    $message_history = '';
     foreach ($messages_array as $key => $value) {
         if ($value['sender_id'] == get_current()) {
             $class = "chat_container darker";
         } else {
             $class = "chat_container";
         }
-        $message_history .= '
+        $date_time = date('d-m-Y H:i', strtotime($value['date_and_time']));
+        $message_history = '
     <div class="'.$class.'">
-    <p>'.$value['text'].'</p>
-    <span class="time-right">'.$value['date_and_time'].'</span>
-    <span>'.get_username($pdo, $value['sender_id']).'</span>
+    <p class="bericht">'.$value['text'].'</p>
+    <b><span>'.get_name($pdo, $value['sender_id']).'</span></b>
+    <span class="time-right">'.$date_time.'</span>
     </div>
-    ';
+    '.$message_history;
     }
 
-    return $message_history.'</div>';
+    return $message_history;
 }
 
 function get_message_table($pdo, $user_id) {

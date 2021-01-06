@@ -65,7 +65,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Geboortedatum</th>
-                            <td><?= $user_info['birth_date'] ?></td>
+                            <td><?= $date_time = date('d-m-Y', strtotime($user_info['birth_date'])) ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Taal</th>

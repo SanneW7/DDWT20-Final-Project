@@ -89,3 +89,21 @@ img{
     border: 5px solid #8fcccc;
     padding: 0;
 }
+
+.message_box{
+    width: 750px !important;
+    height: 200px !important;
+    overflow: scroll;
+    overflow-x: hidden;
+    margin-bottom: 20px;
+}
+
+.time-right{
+    float: right;
+}
+
+.bericht{
+    /*white-space: nowrap;*/
+    /*text-overflow: ellipsis;*/
+    word-wrap: break-word;
+}

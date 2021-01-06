@@ -491,7 +491,13 @@ elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
         redirect('/DDWT20-Final-Project/login/');
     }
     /* General page information */
-    $page_title = 'Berichten';
+    $receiver_id = $_GET['id'];
+    $sender_id = get_current();
+    if ($sender_id == $receiver_id){
+        redirect('/DDWT20-Final-Project/myaccount/');
+    }
+    $receiver_name = get_name($db, $receiver_id);
+    $page_title = sprintf('Berichten met '. $receiver_name);
     $breadcrumbs = get_breadcrumbs([
         'Kamernet2' => na('/DDWT20-Final-Project/', False),
         'Verstuur bericht' => na('/DDWT20-Final-Project/', True)
@@ -507,11 +513,7 @@ elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
     $page_subtitle = '';
     $page_content = '';
     $submit_btn = 'Versturen';
-    $receiver_id = $_GET['id'];
-    $receiver = get_username($db, $receiver_id);
-    $sender_id = get_current();
     $form_action = '/DDWT20-Final-Project/send_message/';
-
     $message_history = get_message_history($db, $receiver_id, $sender_id);
 
     if ( isset($_GET['error_msg']) ) {

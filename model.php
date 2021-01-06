@@ -496,6 +496,13 @@ function register_user($pdo, $form_data){
         ];
     }
 
+    /* Bio length */
+    if (strlen($form_data['biography']) > 255){
+        return [
+            'type' => 'danger',
+            'message' => 'Er ging iets fout, je bio is te lang!'
+        ];
+    }
     /* Check if user already exists */
     try {
         $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
@@ -1021,8 +1028,8 @@ function get_opt_in_table($pdo, $room_id) {
             $opt_in_exp[$key][$opt_in_key] = htmlspecialchars($opt_in_input);
         }
     }
-    $table_exp = '
-    <table class="table table-hover">
+    $table_exp = '<div class="opt-ins">
+    <table class="table table-hover table-bordered">
     <thead
     </thead>
     <tbody>';
@@ -1037,6 +1044,7 @@ function get_opt_in_table($pdo, $room_id) {
     $table_exp .= '
     </tbody>
     </table>
+    </div>
     ';
     return $table_exp;
 }

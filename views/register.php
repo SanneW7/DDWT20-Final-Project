@@ -105,7 +105,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="inputBiography">Biografie</label>
-                            <textarea type="text" class="form-control col-lg-10" id="inputBiography" placeholder="Bio" name="biography" required><?php if (isset($user_info)){echo $user_info['biography'];} ?></textarea>
+                            <textarea maxlength="255" class="form-control col-lg-10" id="inputBiography" placeholder="Bio" name="biography" required><?php if (isset($user_info)){echo $user_info['biography'];} ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                     <div class="form-group">
                         <input type="hidden" value="<?= $user_info['id'] ?>" name="id">
                         <div class="col-sm-2">
-                        <button type="submit" class="btn btn-danger">Account verwijderen</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je je account wilt verwijderen?')">Account verwijderen</button>
                         </div>
                     </div>
                 </form>
@@ -157,8 +157,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
-<footer>
-    Hoi dit is de footer
-    <!-- <img src="/DDWT20-Final-Project/images/facebook_profile_image.jpg" class="w3-round" alt="Logo">-->
-</footer>
 </html>

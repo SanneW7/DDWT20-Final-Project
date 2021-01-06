@@ -989,8 +989,8 @@ function get_user_rooms($pdo, $user_id){
 function get_account_table($rooms){
     $table_exp = '
     <table class="table table-hover">
-    <thead
-    <th>
+    <thead>
+    <tr>
         <th scop="col">Stad</th>
         <th scope="col">Straat</th>
         <th scope="col">Prijs</th>
@@ -1180,4 +1180,31 @@ function get_message_table($pdo, $user_id) {
     </table>
     ';
     return $inbox;
+}
+
+function get_amount_users($pdo){
+    $stmt = $pdo->prepare('SELECT * FROM users');
+    $stmt->execute();
+    $users = $stmt->rowCount();
+    return $users;
+}
+
+function get_amount_rooms($pdo){
+    $stmt = $pdo->prepare('SELECT * FROM rooms');
+    $stmt->execute();
+    $rooms = $stmt->rowCount();
+    return $rooms;
+}
+
+function get_latest_room($pdo){
+    $stmt = $pdo->prepare('SELECT * FROM rooms ORDER BY id DESC LIMIT 0, 1');
+    $stmt->execute();
+    $room_info = $stmt->fetch();
+    $room_info_exp = Array();
+
+    /* Create array with htmlspecialchars */
+    foreach ($room_info as $key => $value){
+        $room_info_exp[$key] = htmlspecialchars($value);
+    }
+    return $room_info_exp;
 }

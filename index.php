@@ -35,6 +35,12 @@ if (new_route('/DDWT20-Final-Project/', 'get')) {
     }
 
     $navigation = get_navigation($template, 1);
+    $amount_users = get_amount_users($db);
+    $amount_rooms = get_amount_rooms($db);
+    $latest_room = get_latest_room($db);
+    $owner_name = get_name($db, $latest_room['owner']);
+    $owner_id = get_owner($db, $latest_room['id']);
+    $newest_room = '/DDWT20-Final-Project/room/?id='.$latest_room['id'];
 
     /* Specific page information */
     $page_subtitle = 'Welkom op Kamernet2';
@@ -70,6 +76,7 @@ elseif (new_route('/DDWT20-Final-Project/rooms/', 'get')) {
     $page_subtitle = 'Beschikbare kamers';
     $page_content = 'Hier zie je een overzicht van alle kamers';
     $left_content = get_room_table($db, get_rooms($db));
+
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);
@@ -346,6 +353,9 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
 
 /* Register user GET */
 elseif (new_route('/DDWT20-Final-Project/register/', 'get')) {
+    if (check_login()){
+        redirect('/DDWT20-Final-Project/myaccount/');
+    }
     /* General page information */
     $page_title = 'Registreren';
     $breadcrumbs = get_breadcrumbs([

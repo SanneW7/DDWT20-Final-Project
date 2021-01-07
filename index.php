@@ -28,7 +28,7 @@ if (new_route('/DDWT20-Final-Project/', 'get')) {
     /* General page information */
     $page_title = 'Home pagina';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Home' => na('/DDWT20-Final-Project/', True)
     ]);
 
@@ -47,7 +47,7 @@ if (new_route('/DDWT20-Final-Project/', 'get')) {
     $owner_name = get_name($db, $latest_room['owner']);
     $owner_id = get_owner($db, $latest_room['id']);
     $newest_room = '/DDWT20-Final-Project/room/?id='.$latest_room['id'];
-    $page_subtitle = 'Welkom op Kamernet2';
+    $page_subtitle = 'Welkom op Vesta';
     $page_content = 'Vind hier je nieuwe kamer of nieuwe huisgenoot!';
 
     /* Feedback messages */
@@ -69,7 +69,7 @@ elseif (new_route('/DDWT20-Final-Project/rooms/', 'get')) {
     /* General page information */
     $page_title = 'Kamers';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Kamers' => na('/DDWT20-Final-Project/rooms/', True)
     ]);
 
@@ -109,7 +109,7 @@ elseif (new_route('/DDWT20-Final-Project/room/', 'get')) {
     /* General page information */
     $page_title = $room_info['streetname']. ' ' .$room_info['house_number']; /* $naam */
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Kamers' => na('/DDWT20-Final-Project/rooms/', False),
         $page_title => na('/DDWT20-Final-Project/room/', True) /* $naam */
     ]);
@@ -165,7 +165,7 @@ elseif (new_route('/DDWT20-Final-Project/add_room/', 'get')) {
     /* General page information */
     $page_title = 'Kamer toevoegen';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Kamer toevoegen' => na('/DDWT20-Final-Project/add_room/', True)
     ]);
 
@@ -225,7 +225,7 @@ elseif (new_route('/DDWT20-Final-Project/edit/', 'get')) {
     /* General page information */
     $page_title = 'Kamer informatie aanpassen';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Aanpassen' => na('/DDWT20-Final-Project/edit/', True)
     ]);
 
@@ -281,7 +281,7 @@ elseif(new_route('/DDWT20-Final-Project/edit_account/', 'get')){
     /* General page information */
     $page_title = 'Account informatie aanpassen';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Mijn account' => na('/DDWT20-Final-Project/myaccount/', False),
         'Account aanpassen' => na('/DDWT20-Final-Project/edit_account', True)
     ]);
@@ -368,7 +368,7 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
     /* General page information */
     $page_title = sprintf('Account van %', 'NAAM');
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Mijn account' => na('/DDWT20-Final-Project/myaccount/', True)
     ]);
 
@@ -415,7 +415,7 @@ elseif (new_route('/DDWT20-Final-Project/register/', 'get')) {
     /* General page information */
     $page_title = 'Registreren';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Registreren' => na('/DDWT20-Final-Project/register/', True)
     ]);
 
@@ -467,7 +467,7 @@ elseif (new_route('/DDWT20-Final-Project/login/', 'get')) {
     /* General page information */
     $page_title = 'Login';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Login' => na('/DDWT20-Final-Project/', True)
     ]);
 
@@ -542,7 +542,7 @@ elseif (new_route('/DDWT20-Final-Project/account_details/', 'get')) {
     /* General page information */
     $page_title = 'Account details';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Account details' => na('/DDWT20-Final-Project/', True)
     ]);
 
@@ -587,7 +587,7 @@ elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
     $receiver_name = get_name($db, $receiver_id);
     $page_title = sprintf('Berichten met '. $receiver_name);
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Verstuur bericht' => na('/DDWT20-Final-Project/', True)
     ]);
 
@@ -641,7 +641,7 @@ elseif (new_route('/DDWT20-Final-Project/inbox/', 'get')) {
     /* General page information */
     $page_title = 'Inbox';
     $breadcrumbs = get_breadcrumbs([
-        'Kamernet2' => na('/DDWT20-Final-Project/', False),
+        'Vesta' => na('/DDWT20-Final-Project/', False),
         'Inbox' => na('/DDWT20-Final-Project/', True)
     ]);
 

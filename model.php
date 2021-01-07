@@ -13,21 +13,20 @@ error_reporting(E_ALL);
 * @return pdo object
 */
 function connect_db($host, $db, $user, $pass){
-$charset = 'utf8mb4';
+    $charset = 'utf8mb4';
+    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
+    try {
+        $pdo = new PDO($dsn, $user, $pass, $options);
+    } catch (\PDOException $e) {
+        echo sprintf("Failed to connect. %s",$e->getMessage());
+    }
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-];
-try {
-$pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-echo sprintf("Failed to connect. %s",$e->getMessage());
+    return $pdo;
 }
-return $pdo;
-}
-
 
 /**
  * This function checks if the called route exists
@@ -35,7 +34,6 @@ return $pdo;
  * @param string $request_type the type of request
  * @return bool validity of the route
  */
-
 function new_route($route_uri, $request_type){
     $route_uri_expl = array_filter(explode('/', $route_uri));
     $current_path_expl = array_filter(explode('/',parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
@@ -45,12 +43,12 @@ function new_route($route_uri, $request_type){
     else
         return false;
 }
+
 /**
  * @param string $url containing path of a breadcrumb
  * @param bool $active tell if the path is active
  * @return array containing the navigation items
  */
-
 function na($url, $active){
     return [$url, $active];
 }
@@ -60,19 +58,16 @@ function na($url, $active){
  * @param string $template name of the right view
  * @return string the path the right template
  */
-
 function use_template($template){
     $template_doc = sprintf("views/%s.php", $template);
     return $template_doc;
 }
-
 
 /**
  * Creates breadcrumbs showing the current path
  * @param array $breadcrumbs containing breadcrumbs of the current path
  * @return string html code containing breadcrumbs
  */
-
 function get_breadcrumbs($breadcrumbs) {
     $breadcrumbs_exp = '
     <nav aria-label="breadcrumb">
@@ -96,11 +91,10 @@ function get_breadcrumbs($breadcrumbs) {
  * @param int $active_id id used to identify the current path
  * @return string html code containing the navigation bar
  */
-
 function get_navigation($template, $active_id){
     $navigation_exp = '
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand">Kamernet2</a>
+        <a class="navbar-brand">Vesta</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -141,7 +135,6 @@ function p_print($input){
  * @param $user_id int the user_id of the current user
  * @return array|string[] containing feedback information
  */
-
 function add_room($pdo, $room_info, $user_id){
     /* Empty check */
     if (
@@ -216,6 +209,8 @@ function add_room($pdo, $room_info, $user_id){
         $room_info['housenumber']
     ]);
     $pdo->lastInsertId();
+
+    /* Return feedback */
     $inserted = $stmt->rowCount();
     if ($inserted ==  1) {
         return [
@@ -235,7 +230,6 @@ function add_room($pdo, $room_info, $user_id){
  * redirects the user to another page
  * @param $location string string containing the new route to redirect to
  */
-
 function redirect($location){
     header(sprintf('Location: %s', $location));
     die();
@@ -246,7 +240,6 @@ function redirect($location){
  * @param $feedback array containing feedback error
  * @return string html code of the error message
  */
-
 function get_error($feedback){
     $feedback = json_decode($feedback, True);
     $error_exp = '
@@ -261,7 +254,6 @@ function get_error($feedback){
  * @param $rooms array containing information of all rooms
  * @return string html code containing a table
  */
-
 function get_room_table($rooms){
     $table_exp = '
     <table class="table table-hover">
@@ -298,7 +290,6 @@ function get_room_table($rooms){
  * @param $pdo object
  * @return array containing information of all rooms
  */
-
 function get_rooms($pdo){
     $stmt = $pdo->prepare('SELECT * FROM rooms');
     $stmt->execute();
@@ -320,7 +311,6 @@ function get_rooms($pdo){
  * @param $room_id int which is the id of the room you want to retrieve
  * @return array containing information of the requested room
  */
-
 function get_room_info($pdo, $room_id){
     $stmt = $pdo->prepare('SELECT * FROM rooms WHERE id = ?');
     $stmt->execute([$room_id]);
@@ -340,7 +330,6 @@ function get_room_info($pdo, $room_id){
  * @param $room_info array containing the updated information of the room
  * @return array|string[] containing feedback
  */
-
 function update_room($pdo, $room_info){
     /* Empty check */
     if (
@@ -413,8 +402,9 @@ function update_room($pdo, $room_info){
             $room_info['housenumber'],
             $room_info['id']
         ]);
-        $updated = $stmt->rowCount();
 
+    /* Return feedback */
+    $updated = $stmt->rowCount();
     if ($updated ==  1) {
         return [
             'type' => 'success',
@@ -435,7 +425,6 @@ function update_room($pdo, $room_info){
  * @param $room_id int containing the id of the room you want to delete
  * @return array|string[] containing feedback
  */
-
 function remove_room($pdo, $room_id){
     /* Check if there are opt-ins */
     try {
@@ -448,9 +437,9 @@ function remove_room($pdo, $room_id){
             'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
         ];
     }
+
     /* Delete all opt-in instances */
     if (!empty($room_info) ) {
-        /* Delete all opt-in instances */
         $stmt = $pdo->prepare("DELETE FROM opt_in WHERE room_id = ?");
         $stmt->execute([$room_id]);
     }
@@ -459,6 +448,8 @@ function remove_room($pdo, $room_id){
     $stmt = $pdo->prepare("DELETE FROM rooms WHERE id = ?");
     $stmt->execute([$room_id]);
     $deleted = $stmt->rowCount();
+
+    /* Return feedback */
     if ($deleted == 1) {
         return [
             'type' => 'success',
@@ -479,7 +470,6 @@ function remove_room($pdo, $room_id){
  * @param $form_data array containing user information to be added to the db
  * @return array|string[] containing feedback
  */
-
 function register_user($pdo, $form_data){
     /* Check if all fields are set */
     if (
@@ -551,6 +541,7 @@ function register_user($pdo, $form_data){
             'message' => 'Er ging iets fout, je bio is te lang!'
         ];
     }
+
     /* Check if user already exists */
     try {
         $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
@@ -562,6 +553,7 @@ function register_user($pdo, $form_data){
             'message' => sprintf('Er ging wat mis: %s', $e->getMessage())
         ];
     }
+
     /* Return error message for existing username */
     if ( !empty($user_exists) ) {
         return [
@@ -615,7 +607,6 @@ function register_user($pdo, $form_data){
  * @param $user_id int id of the username to be retrieved
  * @return string the username retrieved
  */
-
 function get_username($pdo, $user_id){
     $stmt = $pdo->prepare("SELECT username FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
@@ -634,7 +625,6 @@ function get_username($pdo, $user_id){
  * @param $form_data array containing login information
  * @return array|string[] containing feedback
  */
-
 function login_user($pdo, $form_data){
     /* Check if all fields are set */
     if (
@@ -658,6 +648,7 @@ function login_user($pdo, $form_data){
             'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
         ];
     }
+
     /* Return error message for wrong username */
     if (empty($user_info) ) {
         return [
@@ -689,7 +680,6 @@ function login_user($pdo, $form_data){
  * check if the user is logged in by checking the session status
  * @return boolean telling whether or not the user is logged in
  */
-
 function check_login(){
     if (session_status() !=2) {
         session_start();
@@ -705,7 +695,6 @@ function check_login(){
  * function which logs out a user by ending the session
  * @return string[] containing feedback
  */
-
 function logout_user(){
     session_destroy();
     session_unset();
@@ -716,6 +705,8 @@ function logout_user(){
             $params["secure"], $params["httponly"]
         );
     }
+
+    /* Return feedback */
     if (isset($_SESSION['user_id'])){
         return [
             'type' => 'danger',
@@ -734,7 +725,6 @@ function logout_user(){
  * @param $user_id int containing id of the active user
  * @return string[][] containing the fitting template
  */
-
 function template_check($pdo, $user_id){
     $template_tenant = Array(
         1 => Array(
@@ -785,6 +775,7 @@ function template_check($pdo, $user_id){
         )
     );
 
+    /* Return correct template */
     $role = get_role($pdo, $user_id);
     if ($role == 1){
         return $template_owner;
@@ -800,7 +791,6 @@ function template_check($pdo, $user_id){
  * @param $id int of the user who's rol is to be checked
  * @return string the role of the user
  */
-
 function get_role($pdo, $id){
     $stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
     $stmt->execute([$id]);
@@ -814,7 +804,6 @@ function get_role($pdo, $id){
  * @param $room_id int id of the room who's owner is to be retrieved from the database
  * @return string containing the id of the owner
  */
-
 function get_owner($pdo, $room_id){
     $stmt = $pdo->prepare("SELECT owner FROM rooms WHERE id = ?");
     $stmt->execute([$room_id]);
@@ -826,7 +815,6 @@ function get_owner($pdo, $room_id){
  * function which retrieves the id of the current user
  * @return int|mixed id of the current user, if no current user it returns 0
  */
-
 function get_current(){
     if (check_login()){
         return $_SESSION['user_id'];
@@ -841,7 +829,6 @@ function get_current(){
  * @param $user_id int of the user who's full name is to be retrieved
  * @return string containing the full name
  */
-
 function get_name($pdo, $user_id){
     $stmt = $pdo->prepare('SELECT full_name FROM users WHERE id = ?');
     $stmt->execute([$user_id]);
@@ -855,7 +842,6 @@ function get_name($pdo, $user_id){
  * @param $user_id int id of the user who's information is to be retrieved
  * @return array containing the user information
  */
-
 function get_user_info($pdo, $user_id){
     $stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
     $stmt->execute([$user_id]);
@@ -875,7 +861,6 @@ function get_user_info($pdo, $user_id){
  * @param $user_info array containing updated user information
  * @return array|string[] containing feedback
  */
-
 function update_user($pdo, $user_info){
     /* Empty check */
     if (
@@ -939,7 +924,6 @@ function update_user($pdo, $user_info){
         ];
     }
 
-
     $stmt = $pdo->prepare("UPDATE users SET username = ?, full_name = ?, email = ?, phonenumber = ?, birth_date = ?, language = ?, occupation = ?, biography = ? WHERE id = ?");
     $stmt->execute([
         $user_info['username'],
@@ -953,7 +937,8 @@ function update_user($pdo, $user_info){
         $user_info['id']
     ]);
     $updated = $stmt->rowCount();
-    /*}*/
+
+    /* Return feedback */
     if ($updated ==  1) {
         return [
             'type' => 'success',
@@ -974,7 +959,6 @@ function update_user($pdo, $user_info){
  * @param $user_id int id of the user to be deleted
  * @return array|string[] containing feedback
  */
-
 function remove_user($pdo, $user_id){
     /* Check if there are opt-ins */
     try {
@@ -1016,6 +1000,8 @@ function remove_user($pdo, $user_id){
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
     $deleted = $stmt->rowCount();
+
+    /* Return feedback */
     if ($deleted ==  1) {
         logout_user();
         return [
@@ -1029,7 +1015,6 @@ function remove_user($pdo, $user_id){
             'message' => 'Er is iets foutgegaan. Probeer het opnieuw!'.$user_id
         ];
     }
-
 }
 
 /**
@@ -1039,7 +1024,6 @@ function remove_user($pdo, $user_id){
  * @param $room_id int id of the room
  * @return array containing feedback or containing appropriate html code
  */
-
 function check_opt_in($pdo, $user_id, $room_id){
     try {
         $stmt = $pdo->prepare('SELECT * FROM opt_in WHERE user_id = ? AND room_id = ?');
@@ -1051,6 +1035,8 @@ function check_opt_in($pdo, $user_id, $room_id){
             'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
         ];
     }
+
+    /* Return correct button */
     if (empty($info)) {
         return [
             'opt_in' => True,
@@ -1072,12 +1058,13 @@ function check_opt_in($pdo, $user_id, $room_id){
  * @param $room_id int room id of the opt-in to be deleted, part of the PK
  * @return string[] containing feedback
  */
-
 function opt_out($pdo, $user_id, $room_id){
     $room_id = intval($room_id);
     $user_id = intval($user_id);
     $stmt = $pdo->prepare("DELETE FROM opt_in WHERE user_id = ? AND room_id = ?");
     $stmt->execute([intval($user_id), intval($room_id)]);
+
+    /* Return feedback */
     $deleted = $stmt->rowCount();
     if ($deleted ==  1) {
         return [
@@ -1100,7 +1087,6 @@ function opt_out($pdo, $user_id, $room_id){
  * @param $room_id int room id of the opt-in to be added, part of the PK
  * @return string[] containing feedback
  */
-
 function opt_in($pdo, $user_id, $room_id){
     $room_id = intval($room_id);
     $user_id = intval($user_id);
@@ -1111,6 +1097,8 @@ function opt_in($pdo, $user_id, $room_id){
             $room_id
         ]
     );
+
+    /* Return feedback */
     $added = $stmt->rowCount();
     if ($added ==  1) {
         return [
@@ -1132,7 +1120,6 @@ function opt_in($pdo, $user_id, $room_id){
  * @param $user_id int id of the user who's opt-in are to be retrieved
  * @return array containing feedback or the opt-ins
  */
-
 function get_user_rooms($pdo, $user_id){
     if (get_role($pdo, $user_id) == 0) {
         $query = 'SELECT * FROM rooms R, opt_in OI WHERE R.id = OI.room_id AND OI.user_id = ?';
@@ -1149,8 +1136,9 @@ function get_user_rooms($pdo, $user_id){
             'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
         ];
     }
-    $user_exp = Array();
+
     /* Create array with htmlspecialchars */
+    $user_exp = Array();
     foreach ($user as $key => $value){
         foreach ($value as $user_key => $user_input) {
             $user_exp[$key][$user_key] = htmlspecialchars($user_input);
@@ -1164,7 +1152,6 @@ function get_user_rooms($pdo, $user_id){
  * @param $rooms array containing information of the rooms the given user has opted-in or owns
  * @return string containing html code with the table
  */
-
 function get_account_table($rooms){
     $table_exp = '
     <table class="table table-hover">
@@ -1202,12 +1189,12 @@ function get_account_table($rooms){
  * @param $room_id int id of the room which opt-ins we want to retrieve
  * @return string containing html code for the table
  */
-
 function get_opt_in_table($pdo, $room_id) {
     $stmt = $pdo->prepare('SELECT user_id FROM opt_in WHERE room_id = ?');
     $stmt->execute([$room_id]);
     $opt_in = $stmt->fetchAll();
     $opt_in_exp = Array();
+
     /* Create array with htmlspecialchars */
     foreach ($opt_in as $key => $value){
         foreach ($value as $opt_in_key => $opt_in_input) {
@@ -1241,7 +1228,6 @@ function get_opt_in_table($pdo, $room_id) {
  * @param $room_id int id of the room for which we want the number of opt-in
  * @return mixed contains the number of opt-ins
  */
-
 function get_number_opt_in($pdo, $room_id) {
     $stmt = $pdo->prepare('SELECT * FROM opt_in WHERE room_id = ?');
     $stmt->execute([$room_id]);
@@ -1255,7 +1241,6 @@ function get_number_opt_in($pdo, $room_id) {
  * @param $message_info array containing message information to be added to the database
  * @return array|string[] containing feedback
  */
-
 function send_message($pdo, $message_info) {
     if (
         empty($message_info['message']) or
@@ -1285,6 +1270,8 @@ function send_message($pdo, $message_info) {
         $message_info['sender'],
     ]);
     $pdo->lastInsertId();
+
+    /* Return feedback */
     $inserted = $stmt->rowCount();
     if ($inserted ==  1) {
         return [
@@ -1307,7 +1294,6 @@ function send_message($pdo, $message_info) {
  * @param $sender_id int user id  of the sender of the message, part of the PK
  * @return string containing html code for a table of the messages
  */
-
 function get_message_history($pdo, $receiver_id, $sender_id)
 {
     $stmt = $pdo->prepare('SELECT * FROM messages WHERE (receiver_id = ? AND sender_id = ?) OR (receiver_id = ? AND sender_id = ?)');
@@ -1348,7 +1334,6 @@ function get_message_history($pdo, $receiver_id, $sender_id)
  * @param $user_id int id of the user who's conversations to be retrieved
  * @return string containing html code of a table with all conversations
  */
-
 function get_message_table($pdo, $user_id) {
     $stmt = $pdo->prepare('SELECT DISTINCT receiver_id, sender_id
                            FROM messages m1
@@ -1402,7 +1387,6 @@ function get_message_table($pdo, $user_id) {
  * @param $pdo object
  * @return mixed number of users
  */
-
 function get_amount_users($pdo){
     $stmt = $pdo->prepare('SELECT * FROM users');
     $stmt->execute();
@@ -1415,7 +1399,6 @@ function get_amount_users($pdo){
  * @param $pdo object
  * @return mixed number of rooms
  */
-
 function get_amount_rooms($pdo){
     $stmt = $pdo->prepare('SELECT * FROM rooms');
     $stmt->execute();
@@ -1428,7 +1411,6 @@ function get_amount_rooms($pdo){
  * @param $pdo object
  * @return array information of the latest room
  */
-
 function get_latest_room($pdo){
     $stmt = $pdo->prepare('SELECT * FROM rooms ORDER BY id DESC LIMIT 0, 1');
     $stmt->execute();
@@ -1448,7 +1430,6 @@ function get_latest_room($pdo){
  * @param $id int of the id we want to check
  * @return bool which tells if the id exists or not
  */
-
 function check_id($pdo, $id) {
     $stmt = $pdo->prepare("SELECT id FROM users WHERE id=?");
     $stmt->execute([$id]);

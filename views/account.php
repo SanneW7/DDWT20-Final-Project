@@ -41,7 +41,7 @@
                     <div class="card">
                         <!-- Data of the user in a card -->
                         <div class="card-header">
-                            Je bent ingelogd in Kamernet2
+                            Je bent ingelogd in Vesta
                         </div>
                         <div class="card-body">
                             <p>De gegevens van <?= $username ?></p>

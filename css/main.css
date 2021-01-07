@@ -1,21 +1,23 @@
 body {
-    background-color: #e0ebeb; /* #f0f5f5  #f44336 rood
-    background-image: url("/DDWT20-Final-Project/images/facebook_profile_image.png");*/
+    background-color: #e0ebeb;
 }
+
 nav{
-    background-color: #b3cccc; /*; */
+    background-color: #b3cccc;
     font-family: 'Nunito Sans', sans-serif;
     overflow: no-display;
     padding: 0 !important;
-
 }
+
 .breadcrumb{
     background-color: #c2d6d6;
 }
+
 li.nav-item{
     padding-left: 10px;
     padding-right: 10px;
 }
+
 li.nav-item:hover{
     background-color: #d1e0e0;
     border-top-left-radius: 15px;
@@ -23,6 +25,7 @@ li.nav-item:hover{
     padding-left: 10px;
     padding-right: 10px;
 }
+
 li.nav-item.active{
     background-color: #e0ebeb;
     border-top-left-radius: 15px;
@@ -30,21 +33,25 @@ li.nav-item.active{
     padding-left: 10px;
     padding-right: 10px;
 }
+
 a.nav-link{
     color: black;
     padding: 20px 20px 20px 20px;
 }
+
 li.breadcrumb-item > a{
     color: black;
 }
+
 li.breadcrumb-item > a:hover{
     text-decoration: underline;
 }
+
 .container{
     font-family: 'Nunito Sans', sans-serif;
     margin-bottom: 100px;
 }
-/* Chat containers */
+
 .chat_container {
     border: 2px solid #dedede;
     background-color: #f1f1f1;
@@ -52,42 +59,14 @@ li.breadcrumb-item > a:hover{
     padding: 10px;
     margin: 10px 0;
 }
-/* Darker chat container */
+
 .darker {
     border-color: #ccc;
     background-color: #ddd;
 }
-footer{
-    background-color: #b3cccc;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    color: black;
-    text-align: center;
-    vertical-align: middle;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    position: fixed;
 
-}
-img{
-    width: 150px;
-    height: auto;
-    position: fixed;
-    right: 10%;
-    bottom: 20%;
-
-}
 .navbar-brand{
     margin-left: 40px;
-}
-.navbar img{
-    float: right;
-    width: 8%;
-    height: auto;
-    margin-right: -10%;
-    border: 5px solid #8fcccc;
-    padding: 0;
 }
 
 .message_box{
@@ -101,7 +80,6 @@ img{
 }
 
 .bericht{
-
     word-wrap: break-word;
 }
 
@@ -109,31 +87,22 @@ img{
     height: 400px;
     overflow-y: scroll;
 }
-/*::-webkit-scrollbar {*/
-/*    width: 0px;*/
-/*    background: transparent;*/
-/*}*/
 
-/* width */
 ::-webkit-scrollbar {
     width: 5px;
     height: 20px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     margin-top: 10px;
     margin-bottom: 10px;
     background: transparent;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-
     background: #888;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }

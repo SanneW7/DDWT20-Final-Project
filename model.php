@@ -390,7 +390,7 @@ function update_room($pdo, $room_info){
     else {
         return [
             'type' => 'warning',
-            'message' => 'Er is iets fout gegaan. Probeer het opnieuw!'
+            'message' => 'Er is niks gewijzigd.'
         ];
     }
 }
@@ -671,6 +671,10 @@ function template_check($pdo, $user_id){
         5 => Array(
             'name' => 'Mijn account',
             'url' => '/DDWT20-Final-Project/myaccount/'
+        ),
+        6 => Array(
+            'name' => 'Uitloggen',
+            'url' => '/DDWT20-Final-Project/logout/'
         )
     );
     $template_owner = Array(
@@ -693,6 +697,10 @@ function template_check($pdo, $user_id){
         5 => Array(
             'name' => 'Mijn account',
             'url' => '/DDWT20-Final-Project/myaccount/'
+        ),
+        6 => Array(
+            'name' => 'Uitloggen',
+            'url' => '/DDWT20-Final-Project/logout/'
         )
     );
 
@@ -831,7 +839,7 @@ function update_user($pdo, $user_info){
     else {
         return [
             'type' => 'warning',
-            'message' => 'Er is iets fout gegaan. Probeer het opnieuw!'
+            'message' => 'Er is niks gewijzigd.'
         ];
     }
 }
@@ -1207,4 +1215,15 @@ function get_latest_room($pdo){
         $room_info_exp[$key] = htmlspecialchars($value);
     }
     return $room_info_exp;
+}
+
+function check_id($pdo, $id) {
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE id=?");
+    $stmt->execute([$id]);
+    $result = $stmt->rowCount();
+    if($result == 0) {
+        return False;
+    } else {
+        return True;
+    }
 }

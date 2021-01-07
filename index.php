@@ -342,6 +342,12 @@ elseif (new_route('/DDWT20-Final-Project/myaccount/', 'get')) {
     $username = get_username($db, $_SESSION['user_id']);
     $user_info = get_user_info($db, $_SESSION['user_id']);
     $room_content = get_account_table(get_user_rooms($db, $_SESSION['user_id']));
+    $role = get_role($db, $_SESSION['user_id']);
+    if ($role == 0) {
+        $card_header = "Jouw inschrijvingen";
+    } else {
+        $card_header = "Jouw kamers";
+    }
 
     if ( isset($_GET['error_msg']) ) {
         $error_msg = get_error($_GET['error_msg']);
@@ -499,6 +505,9 @@ elseif (new_route('/DDWT20-Final-Project/account_details/', 'get')) {
 elseif (new_route('/DDWT20-Final-Project/send_message/', 'get')) {
     if (!check_login()){
         redirect('/DDWT20-Final-Project/login/');
+    }
+    elseif (check_id($db, $_GET['id']) == False){
+        redirect('/DDWT20-Final-Project/inbox/');
     }
     /* General page information */
     $receiver_id = $_GET['id'];

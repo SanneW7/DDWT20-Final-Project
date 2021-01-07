@@ -90,7 +90,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    Kamer informatie
+                    <?= $card_header ?>
                 </div>
                 <div>
                     <?php if(isset($room_content)){

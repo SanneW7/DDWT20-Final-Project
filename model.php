@@ -1442,6 +1442,13 @@ function get_latest_room($pdo){
     return $room_info_exp;
 }
 
+/**
+ * function which checks if a given id exists in the database
+ * @param $pdo object
+ * @param $id int of the id we want to check
+ * @return bool which tells if the id exists or not
+ */
+
 function check_id($pdo, $id) {
     $stmt = $pdo->prepare("SELECT id FROM users WHERE id=?");
     $stmt->execute([$id]);

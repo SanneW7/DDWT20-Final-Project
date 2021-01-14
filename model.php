@@ -996,6 +996,24 @@ function remove_user($pdo, $user_id){
         $stmt->execute([$user_id]);
     }
 
+    /* Check if there are messages */
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM messages WHERE sender_id = ? OR receiver_id = ?');
+        $stmt->execute([$user_id, $user_id]);
+        $user_info = $stmt->fetch();
+    } catch (\PDOException $e) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
+        ];
+    }
+
+    /* Delete all message instances */
+    if (!empty($user_info) ) {
+        $stmt = $pdo->prepare("DELETE FROM messages WHERE receiver_id = ? OR sender_id = ?");
+        $stmt->execute([$user_id, $user_id]);
+    }
+
     /* Delete user */
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
     $stmt->execute([$user_id]);

@@ -330,10 +330,10 @@ elseif (new_route('/DDWT20-Final-Project/edit_account/', 'post')) {
 /* DELETE room */
 elseif (new_route('/DDWT20-Final-Project/delete/', 'post')) {
     /* Delete room from database */
+    $room_id = $_POST['id'];
     $feedback = remove_room($db, $room_id);
 
     /* Redirecting */
-    $room_id = $_POST['id'];
     if ($feedback['type'] == 'danger') {
         redirect(sprintf('/DDWT20-Final-Project/room/?id=%s&error_msg=%s',
             json_encode(intval($room_id)), json_encode($feedback)));

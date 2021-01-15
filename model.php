@@ -215,7 +215,7 @@ function add_room($pdo, $room_info, $user_id){
     if ($inserted ==  1) {
         return [
             'type' => 'success',
-            'message' => sprintf("Kamer '%s %s' is toegevoegd aan Kamernet2!", $room_info['street'], $room_info['housenumber'])
+            'message' => sprintf("Kamer '%s %s' is toegevoegd aan Vesta!", $room_info['street'], $room_info['housenumber'])
         ];
     }
     else {
@@ -980,10 +980,23 @@ function remove_user($pdo, $user_id){
 
     /* Check if there are any rooms the user owns */
     try {
-        $stmt = $pdo->prepare('SELECT * FROM rooms WHERE owner = ?');
+        $stmt = $pdo->prepare('SELECT id FROM rooms WHERE owner = ?');
         $stmt->execute([$user_id]);
         $user_info = $stmt->fetch();
     } catch (\PDOException $e) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
+        ];
+    }
+
+    /* Delete opt-ins where the room of the owner is involved */
+    try {
+        foreach ($user_info as $id){
+            $stmt = $pdo->prepare("DELETE FROM opt_in WHERE room_id = ?");
+            $stmt->execute([$id]);
+        }
+        } catch (\PDOException $e) {
         return [
             'type' => 'danger',
             'message' => sprintf('Er is iets foutgegaan: %s', $e->getMessage())
@@ -1434,7 +1447,7 @@ function get_latest_room($pdo){
     $stmt->execute();
     $room_info = $stmt->fetch();
     $room_info_exp = Array();
-    if (empty($room_info_exp)){
+    if (empty($room_info)){
         return $room_info_exp;
     }
     /* Create array with htmlspecialchars */

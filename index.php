@@ -44,9 +44,11 @@ if (new_route('/DDWT20-Final-Project/', 'get')) {
     $amount_users = get_amount_users($db);
     $amount_rooms = get_amount_rooms($db);
     $latest_room = get_latest_room($db);
-    $owner_name = get_name($db, $latest_room['owner']);
-    $owner_id = get_owner($db, $latest_room['id']);
-    $newest_room = '/DDWT20-Final-Project/room/?id='.$latest_room['id'];
+    if (!empty($latest_room)) {
+        $owner_name = get_name($db, $latest_room['owner']);
+        $owner_id = get_owner($db, $latest_room['id']);
+        $newest_room = '/DDWT20-Final-Project/room/?id=' . $latest_room['id'];
+    }
     $page_subtitle = 'Welkom op Vesta';
     $page_content = 'Vind hier je nieuwe kamer of nieuwe huisgenoot!';
 
@@ -477,7 +479,7 @@ elseif (new_route('/DDWT20-Final-Project/login/', 'get')) {
     } else{
         $template = $template_login;
     }
-    $navigation = get_navigation($template, 4);
+    $navigation = get_navigation($template, 5);
 
     /* Page content */
     $page_subtitle = 'Hier kun je inloggen';

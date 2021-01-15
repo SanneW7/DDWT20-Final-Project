@@ -38,6 +38,7 @@
                     <h5><?= $page_subtitle?></h5>
                     <!-- Page content -->
                     <p><?=  $page_content?></p>
+                    <?php if (!empty($latest_room)){ ?>
                     <div class="card">
                         <!-- The last added room -->
                         <div class="card-header">
@@ -82,6 +83,7 @@
                             <!-- Button to go the last added room -->
                             <a href=<?= $newest_room ?> role="button" class="btn btn-primary">Meer informatie</a>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
 

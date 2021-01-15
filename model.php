@@ -1434,7 +1434,9 @@ function get_latest_room($pdo){
     $stmt->execute();
     $room_info = $stmt->fetch();
     $room_info_exp = Array();
-
+    if (empty($room_info_exp)){
+        return $room_info_exp;
+    }
     /* Create array with htmlspecialchars */
     foreach ($room_info as $key => $value){
         $room_info_exp[$key] = htmlspecialchars($value);
